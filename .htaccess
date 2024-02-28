@@ -1,0 +1,123 @@
+RewriteEngine On
+### user
+
+# Riscrive /home a home.php
+RewriteRule ^home/?$ home.php [L]
+
+# Riscrive /register a register.php
+RewriteRule ^register/?$ register.php [L]
+
+# Riscrive /login a login.php
+RewriteRule ^login/?$ login.php [L]
+
+### teams
+
+# Riscrive /teams a teams.php
+RewriteRule ^teams/?$ teams.php [L]
+
+# Riscrive /teams/1 a teams.php?id=1
+RewriteRule ^teams/([0-9]+)/?$ teams.php?id=$1 [L,QSA]
+
+### matches
+
+# Riscrive /matches a matches.php
+RewriteRule ^matches/?$ matches.php [L]
+
+# Riscrive /matches/1 a matches.php?id=1
+RewriteRule ^matches/([0-9]+)/?$ matches.php?id=$1 [L,QSA]
+
+# Riscrive /matches_bet a matchesBet.php
+RewriteRule ^matches_bet/?$ matchesBet.php [L]
+
+# Riscrive /matches_bet/1 a matchesBet.php?id=1
+RewriteRule ^matches_bet/([0-9]+)/?$ matchesBet.php?id=$1 [L,QSA]
+
+### matches finali
+
+# Riscrive /matches_fin a matchesFin.php
+RewriteRule ^matches_fin/?$ matchesFin.php [L]
+
+# Riscrive /matches_fin/1 a matchesFin.php?id=1
+RewriteRule ^matches_fin/([0-9]+)/?$ matchesFin.php?id=$1 [L,QSA]
+
+# Riscrive /matches_fin_bet a matchesFinBet.php
+RewriteRule ^matches_fin_bet/?$ matchesFinBet.php [L]
+
+# Riscrive /matches_fin_bet/1 a matchesFinBet.php?id=1
+RewriteRule ^matches_fin_bet/([0-9]+)/?$ matchesFinBet.php?id=$1 [L,QSA]
+
+### fasi
+
+# Riscrive /fasi a fasi.php
+RewriteRule ^fasi/?$ fasi.php [L]
+
+### user points
+
+# Riscrive /user_points a userPoints.php
+RewriteRule ^user_points/?$ userPoints.php [L]
+
+# Riscrive /user_points/1 a userPoints.php?id=1
+RewriteRule ^user_points/([0-9]+)/?$ userPoints.php?id=$1 [L,QSA]
+
+### gironi
+
+# Riscrive /gironi a gironi.php
+RewriteRule ^gironi/?$ gironi.php [L]
+
+# Riscrive /gironi/1 a gironi.php?girone=1
+RewriteRule ^gironi/([A-Z]+)/?$ gironi.php?girone=$1 [L,QSA]
+
+# Riscrive /gironi_bet a gironiBet.php
+RewriteRule ^gironi_bet/?$ gironiBet.php [L]
+
+# Riscrive /gironi/1 a gironi.php?girone=1
+RewriteRule ^gironi_bet/([A-Z]+)/?$ gironiBet.php?girone=$1 [L,QSA]
+
+### goal veloce
+
+# Riscrive /matches a matches.php
+RewriteRule ^goal_veloce/?$ goalVeloce.php [L]
+
+# Riscrive /matches/1 a matches.php?id=1
+RewriteRule ^goal_veloce/([0-9]+)/?$ goalVeloce.php?id=$1 [L,QSA]
+
+# Riscrive /matches_bet a matchesBet.php
+RewriteRule ^goal_veloce_bet/?$ goalVeloceBet.php [L]
+
+# Riscrive /matches_bet/1 a matchesBet.php?id=1
+RewriteRule ^goal_veloce_bet/([0-9]+)/?$ goalVeloceBet.php?id=$1 [L,QSA]
+
+### team rivelaz
+
+# Riscrive /matches a matches.php
+RewriteRule ^team_rivelaz/?$ teamRivelaz.php [L]
+
+# Riscrive /matches/1 a matches.php?id=1
+RewriteRule ^team_rivelaz/([0-9]+)/?$ teamRivelaz.php?id=$1 [L,QSA]
+
+# Riscrive /matches_bet a matchesBet.php
+RewriteRule ^team_rivelaz_bet/?$ teamRivelazBet.php [L]
+
+# Riscrive /matches_bet/1 a matchesBet.php?id=1
+RewriteRule ^team_rivelaz_bet/([0-9]+)/?$ teamRivelazBet.php?id=$1 [L,QSA]
+
+### capocannoniere azz
+
+# Riscrive /matches_bet a matchesBet.php
+RewriteRule ^capo_azz_bet/?$ capoAzzBet.php [L]
+
+# Riscrive /matches_bet/1 a matchesBet.php?id=1
+RewriteRule ^capo_azz_bet/([0-9]+)/?$ capoAzzBet.php?id=$1 [L,QSA]
+
+### capocannoniere euro
+
+# Riscrive /matches_bet a matchesBet.php
+RewriteRule ^capo_euro_bet/?$ capoEuroBet.php [L]
+
+# Riscrive /matches_bet/1 a matchesBet.php?id=1
+RewriteRule ^capo_euro_bet/([0-9]+)/?$ capoEuroBet.php?id=$1 [L,QSA]
+
+### user activation
+
+# Riscrive /user_status/1 a userActivation.php?id=1
+RewriteRule ^user_status/([0-9]+)/?$ userActivation.php?id=$1 [L,QSA]
