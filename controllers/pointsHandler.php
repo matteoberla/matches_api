@@ -94,6 +94,15 @@ class PointsHandler {
         echo $team1Bet . $team2Bet . $goal1Bet . $goal2Bet . $resultBet;
         echo "----";*/
 
+        if($team1 == $team1Bet && $team2 == $team2Bet){
+            //entrambe le squadre corrette
+        }else if($team1 == $team1Bet || $team2 == $team2Bet){
+            //sono una corretta
+        }else{
+            //nessuna
+            return 0;
+        }
+
         if($result == $resultBet){
 
             if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
