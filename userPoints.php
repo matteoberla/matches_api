@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
         sendJson(200, '', $row);
 
     }else{
-        $authHandler->checkIfAdmin($connection);
+        //$authHandler->checkIfAdmin($connection);
         //lista utenti
 
         $sql = "SELECT
