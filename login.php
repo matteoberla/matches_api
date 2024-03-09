@@ -31,10 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     $email = mysqli_real_escape_string($connection, trim($data->email));
     $password = trim($data->password);
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) :
-        sendJson(200, 'Email non valida!');
-
-    elseif (strlen($password) < 8) :
+    if (strlen($password) < 8) :
         sendJson(200, 'Password troppo corta!');
     endif;
 

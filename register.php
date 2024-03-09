@@ -32,10 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     $email = mysqli_real_escape_string($connection, trim($data->email));
     $password = trim($data->password);
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) :
-        sendJson(200, 'Email non valida!');
-
-    elseif (strlen($password) < 5) :
+    if (strlen($password) < 5) :
         sendJson(200, 'La password deve avere almeno 5 caratteri!');
 
     elseif (strlen($name) < 3) :
@@ -53,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     $sql = "INSERT INTO `users`(`name`,`email`,`password`, `admin`) VALUES('$name','$email','$hash_password', 0)";
     $query = mysqli_query($connection, $sql);
     
-    if ($query) sendJson(200, "");
+    if ($query) sendJson(200, "ok");
     sendJson(500, 'Something going wrong.');
 endif;
 
