@@ -75,6 +75,7 @@ class PointsHandler {
 
     function calcMatchesFinBetPoints($match, $matchBet){
         //match values
+        $fase = $match->fase;
         $team1 = $match->id_team_1;
         $team2 = $match->id_team_2;
         $goal1 = $match->goal_team_1;
@@ -94,10 +95,18 @@ class PointsHandler {
         echo $team1Bet . $team2Bet . $goal1Bet . $goal2Bet . $resultBet;
         echo "----";*/
 
+
+        if($fase != 5){
+            //qualsiasi altra fase
+        }else{
+            //fase finale
+        }
+
+
         if($team1 == $team1Bet && $team2 == $team2Bet){
             //entrambe le squadre corrette
         }else if($team1 == $team1Bet || $team2 == $team2Bet){
-            //sono una corretta
+            //solo una corretta
         }else{
             //nessuna
             return 0;
@@ -116,6 +125,67 @@ class PointsHandler {
         return 0;
     }
 
+    function calcMatchesBetBonus($connection, $match, $matchBet){
+        $fase = $match->fase;
+
+        //squadre impostate nella scommessa
+        $team1Bet = $matchBet["id_team_1"];
+        $team2Bet = $matchBet["id_team_2"];
+
+        //guardo lista partite della fase
+        $sql = "SELECT
+                id_team_1,
+                id_team_2
+            FROM
+                matches_fin
+            WHERE fase = ".$fase.";";
+        $query = mysqli_query($connection, $sql);
+
+        $matchesDict = $query->fetch_all(MYSQLI_ASSOC);
+
+        $bonus = 0;
+        //ricavo lista squadre
+        foreach($matchesDict as $key => $value){
+
+            //squadre della partita effettiva
+            $team1 = $value["id_team_1"];
+            $team2 = $value["id_team_2"];
+
+            if($team1 == null || $team2 == null){
+                continue;
+            }
+
+            //se le squadre del $matchBet sono presenti tra la lista di squadre assegno punti
+            if($team1 == $team1Bet || $team1 == $team2Bet){
+                if($fase == 3){
+                    //quart
+                    $bonus += 10;
+                }else if($fase == 4){
+                    //semi
+                    $bonus += 15;
+                }else if($fase == 5){
+                    //finale
+                    $bonus += 25;
+                }
+            }
+            if($team2 == $team1Bet || $team2 == $team2Bet){
+                if($fase == 3){
+                    //quart
+                    $bonus += 10;
+                }else if($fase == 4){
+                    //semi
+                    $bonus += 15;
+                }else if($fase == 5){
+                    //finale
+                    $bonus += 25;
+                }
+            }
+        }
+
+
+        return $bonus;
+    }
+
     function calcGoalVeloceBetPoints($goalVeloce, $goalVeloceBet){
         //goal veloce values
         $idTeam = $goalVeloce->id_team;
@@ -128,11 +198,11 @@ class PointsHandler {
         echo "----";*/
 
         if($idTeam == $idTeamBet){
-            //result ok, goal ok
-            return 12;
+            //squadra ok
+            return 25;
         }else{
-            //result ok, goal no
-            return 4;
+            //squadra no
+            return 0;
         }
     }
 
@@ -149,34 +219,39 @@ class PointsHandler {
         echo "----";*/
 
         if($idTeam == $idTeamBet){
-            //result ok, goal ok
-            return 12;
+            //squadra ok
+            return 30;
         }else{
-            //result ok, goal no
-            return 4;
-        }
-    }
-
-
-    function calcCapoAzzBetPoints($is_valid) {
-        if($is_valid == 1){
-            return 10;
-        }else if($is_valid == 0){
-            return 0;
-        }
-    }
-
-    function calcCapoEuroBetPoints($is_valid) {
-        if($is_valid == 1){
-            return 10;
-        }else if($is_valid == 0){
+            //squadra no
             return 0;
         }
     }
 
 
+    function calcCapoAzzBetPoints($is_valid, $bet_num) {
+        if($is_valid == 1){
+            //valido -> verifico numero scommessa
+            if($bet_num == 1){
+                return 10;
+            }else{
+                return 7;
+            }
+        }else if($is_valid == 0){
+            return 0;
+        }
+    }
 
-
-
+    function calcCapoEuroBetPoints($is_valid, $bet_num) {
+        if($is_valid == 1){
+            //valido -> verifico numero scommessa
+            if($bet_num == 1){
+                return 30;
+            }else{
+                return 20;
+            }
+        }else if($is_valid == 0){
+            return 0;
+        }
+    }
 
 }

@@ -121,3 +121,14 @@ RewriteRule ^capo_euro_bet/([0-9]+)/?$ capoEuroBet.php?id=$1 [L,QSA]
 
 # Riscrive /user_status/1 a userActivation.php?id=1
 RewriteRule ^user_status/([0-9]+)/?$ userActivation.php?id=$1 [L,QSA]
+
+
+### esportazione dati ###
+# Riscrive /export_matches a matches_export.php
+RewriteRule ^export_matches/?$ matches_export.php [L]
+
+# Riscrive /export_matches_fin a matchesFin_export.php
+RewriteRule ^export_matches_fin/?$ matchesFin_export.php [L]
+
+# Riscrive /export_gironi a giroi_export.php
+RewriteRule ^export_gironi/?$ gironi_export.php [L]

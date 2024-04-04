@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
     if ($row_num == 0) sendJson(404, 'This bet doesn\'t exists!');
 
     $pointsHandler = new PointsHandler();
-    $capoAzzBetPoints = $pointsHandler->calcCapoAzzBetPoints($is_valid);
+    $capoAzzBetPoints = $pointsHandler->calcCapoAzzBetPoints($is_valid, $bet_num);
 
     $sql = "UPDATE `capo_azz_bet` SET `user_id`='$user_id',`bet_num`=$bet_num,`value`='$value',`is_valid`=$is_valid,`points`=$capoAzzBetPoints  WHERE `id` = $id";
     $query = mysqli_query($connection, $sql);
