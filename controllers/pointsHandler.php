@@ -89,6 +89,15 @@ class PointsHandler {
         $goal2Bet = $matchBet["goal_team_2"];
         $resultBet = $matchBet["result"];
 
+        if($team1 == null || $team2 == null){
+            return null;
+        }
+
+        if($goal1 == null || $goal2 == null){
+            return null;
+        }
+
+
         /*echo "match";
         echo $team1 . $team2 . $goal1 . $goal2 . $result;
         echo "\nmatch bet";
@@ -145,7 +154,7 @@ class PointsHandler {
 
         $bonus = 0;
         //ricavo lista squadre
-        foreach($matchesDict as $key => $value){
+        foreach($matchesDict as $value){
 
             //squadre della partita effettiva
             $team1 = $value["id_team_1"];

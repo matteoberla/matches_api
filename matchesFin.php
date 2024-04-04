@@ -227,14 +227,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
             $pointsHandler = new PointsHandler();
             //punti
             $matchBetPoints = $pointsHandler->calcMatchesFinBetPoints($data, $matchFinBet);
-            echo $matchBetPoints;
+            //echo $matchBetPoints;
             if($matchBetPoints == null){
                 $matchBetPoints = "NULL";
             }
             //bonus
             $matchBetBonus = $pointsHandler->calcMatchesBetBonus($connection, $data, $matchFinBet);
+            //echo $matchBetBonus;
+            if($matchBetBonus == null){
+                $matchBetBonus = "NULL";
+            }
 
-            $sql .= "UPDATE `matches_fin_bet` SET `points`= $matchBetPoints WHERE `id`='$matchFinBetId';";
+            $sql .= "UPDATE `matches_fin_bet` SET `points`= $matchBetPoints, `bonus`= $matchBetBonus WHERE `id`='$matchFinBetId';";
 
         }
         //echo $sql;

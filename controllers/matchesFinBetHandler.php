@@ -38,7 +38,7 @@ class MatchesFinBetHandler {
 
         //match bet appena compilata
         $matchBet = $this->getMatchFinBetByUserAndMatch($connection, $user_id, $match_id);
-        
+
         //squadra vincente
         $winnerTeam = $this->getWinnerTeamFromMatchBet($matchBet);
 
@@ -92,24 +92,24 @@ class MatchesFinBetHandler {
     function compileNextBet($connection, $user_id, $next_match_id, $teamId, $teamPos){
         //get bet
         $nextMatchBet = $this->getMatchFinBetByUserAndMatch($connection, $user_id, $next_match_id);
-        
+
         if($nextMatchBet == null){
             //INSERISCO BET
             //echo "ins";
 
             $sql = "INSERT INTO `matches_fin_bet` (`user_id`,`match_id`,`id_team_".$teamPos."`) VALUES($user_id,$next_match_id,$teamId)";
-            $query = mysqli_query($connection, $sql);
+            mysqli_query($connection, $sql);
 
         }else{
             //AGGIORNO ESISTENTE
             //echo "upd";
 
             $sql = "UPDATE `matches_fin_bet` SET `id_team_".$teamPos."`=$teamId  WHERE `match_id` = $next_match_id AND `user_id` = $user_id";
-            $query = mysqli_query($connection, $sql);
+            mysqli_query($connection, $sql);
 
         }
 
     }
 
-    
+
 }
