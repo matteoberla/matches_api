@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
             $gironeBetId = $gironeBet["id"];
             $pointsHandler = new PointsHandler();
             $gironeBetPoints = $pointsHandler->calcGironiBetPoints($data, $gironeBet);
-            echo $gironeBetPoints;
+            //echo $gironeBetPoints;
             $sql .= "UPDATE `gironi_bet` SET `points`= '$gironeBetPoints' WHERE `id`='$gironeBetId';";
         }
         //echo $sql;

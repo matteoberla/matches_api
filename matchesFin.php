@@ -228,13 +228,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
             //punti
             $matchBetPoints = $pointsHandler->calcMatchesFinBetPoints($data, $matchFinBet);
             //echo $matchBetPoints;
-            if($matchBetPoints == null){
+            if($matchBetPoints === null){
                 $matchBetPoints = "NULL";
             }
             //bonus
             $matchBetBonus = $pointsHandler->calcMatchesBetBonus($connection, $data, $matchFinBet);
             //echo $matchBetBonus;
-            if($matchBetBonus == null){
+            if($matchBetBonus === null){
                 $matchBetBonus = "NULL";
             }
 
