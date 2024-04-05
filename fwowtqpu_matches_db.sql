@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Creato il: Apr 04, 2024 alle 12:15
--- Versione del server: 10.4.28-MariaDB
--- Versione PHP: 8.2.4
+-- Host: localhost:3306
+-- Creato il: Apr 05, 2024 alle 09:58
+-- Versione del server: 10.6.17-MariaDB-cll-lve-log
+-- Versione PHP: 8.1.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `matches_db`
+-- Database: `fwowtqpu_matches_db`
 --
 
 -- --------------------------------------------------------
@@ -45,7 +45,7 @@ INSERT INTO `capo_azz_bet` (`id`, `user_id`, `bet_num`, `value`, `is_valid`, `po
 (6, 1, 1, 'a', 1, 10),
 (7, 1, 2, 'a', 0, 0),
 (8, 6, 1, 'ccc', 1, 10),
-(9, 6, 2, 'ddd', 0, NULL);
+(9, 6, 2, 'ddd', 1, 7);
 
 -- --------------------------------------------------------
 
@@ -68,10 +68,10 @@ CREATE TABLE IF NOT EXISTS `capo_euro_bet` (
 --
 
 INSERT INTO `capo_euro_bet` (`id`, `user_id`, `bet_num`, `value`, `is_valid`, `points`) VALUES
-(1, 1, 1, 'a', 1, 10),
-(3, 1, 2, 'b', 1, 10),
-(4, 6, 1, 'aaa', 1, 10),
-(5, 6, 2, 'bbb', 1, 10);
+(1, 1, 1, 'a', 1, 30),
+(3, 1, 2, 'b', 1, 20),
+(4, 6, 1, 'aaa', 1, 30),
+(5, 6, 2, 'bbb', 1, 20);
 
 -- --------------------------------------------------------
 
@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `gironi_bet` (
   `pos_4` int(11) NOT NULL,
   `points` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `gironi_bet`
@@ -170,7 +170,9 @@ CREATE TABLE IF NOT EXISTS `gironi_bet` (
 INSERT INTO `gironi_bet` (`id`, `user_id`, `girone`, `pos_1`, `pos_2`, `pos_3`, `pos_4`, `points`) VALUES
 (6, 1, 'Girone A', 1, 2, 4, 3, 15),
 (7, 6, 'Girone A', 1, 2, 3, 4, 28),
-(8, 1, 'Girone B', 4, 3, 2, 1, NULL);
+(8, 1, 'Girone B', 4, 3, 2, 1, NULL),
+(9, 1, 'Girone C', 1, 2, 3, 4, NULL),
+(10, 10, 'Girone A', 1, 2, 3, 4, NULL);
 
 -- --------------------------------------------------------
 
@@ -328,7 +330,7 @@ CREATE TABLE IF NOT EXISTS `matches_fin_bet` (
   `points` int(11) DEFAULT NULL,
   `bonus` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `matches_fin_bet`
@@ -431,18 +433,20 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` text NOT NULL,
   `password` text NOT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT 0,
+  `extra_info` text NOT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dump dei dati per la tabella `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `admin`, `isActive`) VALUES
-(1, 'matteo berlato', 'matteoberla02@gmail.com', '$2y$10$Rx3eENdoTiiTwK1Jyw.xzu/anIkPC9NJMsPSWwUpOoAE6FJAVFv8u', 1, 1),
-(6, 'jana frigo', 'janafrigo06@gmail.com', '$2y$10$6wiTKZtAEcRgSpVHrQC6ee9/Apdw2SQkZ082Xae2nC4F5C0zBXLUC', 0, 1),
-(9, 'test', 'test@test.com', '$2y$10$fgoZoDHCZnjzJfHldcKqcup/PN0ZtMol.4xcNHu5Y3ekcL9SXAljq', 0, 0);
+INSERT INTO `users` (`id`, `name`, `email`, `password`, `admin`, `extra_info`, `isActive`) VALUES
+(1, 'matteo berlato', 'matteoberla02@gmail.com', '$2y$10$Rx3eENdoTiiTwK1Jyw.xzu/anIkPC9NJMsPSWwUpOoAE6FJAVFv8u', 1, 'MTIzNDU2Nzkw', 1),
+(6, 'jana frigo', 'janafrigo06@gmail.com', '$2y$10$6wiTKZtAEcRgSpVHrQC6ee9/Apdw2SQkZ082Xae2nC4F5C0zBXLUC', 0, '', 1),
+(9, 'test', 'test@test.com', '$2y$10$fgoZoDHCZnjzJfHldcKqcup/PN0ZtMol.4xcNHu5Y3ekcL9SXAljq', 0, '', 0),
+(10, 'Cristian Kroos', 'frigocristian432@gmail.com', '$2y$10$nOi8p13JQLJiNuU5kBwxUOg5SoEGjXR2J0vZ8WnkpZukobY9OWAzO', 0, '', 1);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
