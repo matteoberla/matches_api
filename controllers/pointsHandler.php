@@ -42,26 +42,37 @@ class PointsHandler {
         $pos3Bet = $gironeBet["pos_3"];
         $pos4Bet = $gironeBet["pos_4"];
 
+        $results = array();
+        $results[0] = 0;
+        $results[$pos1] = $pos1Bet;
+        $results[$pos2] = $pos2Bet;
+        $results[$pos3] = $pos3Bet;
+        $results[$pos4] = $pos4Bet;
 
-        if($pos1 == $pos1Bet && $pos2 == $pos2Bet && $pos3 == $pos3Bet && $pos4 == $pos4Bet){
+        if(!isset($results[1]) || !isset($results[2]) || !isset($results[3]) || !isset($results[4])){
+            return 0;
+        }
+
+
+        if($results[1] == 1 && $results[2] == 2 && $results[3] == 3 && $results[4] == 4){
             //tutte ok
             return 28;
-        }else if($pos1 == $pos1Bet && $pos2 == $pos2Bet){
+        }else if($results[1] == 1 && $results[2] == 2){
             //1 e 2 ok
             return 15;
-        }else if($pos1 == $pos2Bet && $pos2 == $pos1Bet){
+        }else if($results[1] == 2 && $results[2] == 1){
             //1 e 2 invertite
             return 9;
-        }else if($pos1 == $pos1Bet){
+        }else if($results[1] == 1){
             //1 ok
             return 5;
-        }else if($pos2 == $pos1Bet){
+        }else if($results[2] == 1){
             //arrivata 2a ma impostata 1a
             return 5;
-        }else if($pos2 == $pos2Bet){
+        }else if($results[2] == 2){
             //2 ok
             return 5;
-        }else if($pos1 == $pos2Bet){
+        }else if($results[1] == 2){
             //arrivata 1a ma impostata 2a
             return 5;
         }

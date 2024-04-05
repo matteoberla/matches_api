@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
 
     $sql = "INSERT INTO `gironi` (`girone`,`id_team_1`,`id_team_2`,`id_team_3`,`id_team_4`,`pos_1`,`pos_2`,`pos_3`,`pos_4`) VALUES('$girone',$id_team_1,$id_team_2,$id_team_3,$id_team_4,$pos_1,$pos_2,$pos_3,$pos_4)";
     $query = mysqli_query($connection, $sql);
-    
+
     if ($query) sendJson(200, 'You have successfully registered a match.');
     sendJson(500, 'Something going wrong.');
 endif;
@@ -190,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
 
     $sql = "UPDATE `gironi` SET `girone`='$girone',`id_team_1`=$id_team_1,`id_team_2`=$id_team_2,`id_team_3`=$id_team_3,`id_team_4`=$id_team_4,`pos_1`=$pos_1,`pos_2`=$pos_2,`pos_3`=$pos_3,`pos_4`=$pos_4  WHERE `id` = $id";
     $query = mysqli_query($connection, $sql);
-    
+
     if ($query) {
         //updates successfully
         //update points of bets
@@ -199,15 +199,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
         $query = mysqli_query($connection, $sql);
 
         $gironiBetDict = $query->fetch_all(MYSQLI_ASSOC);
-        
+
         $sql = "";
         for ($i = 0; $i < count($gironiBetDict); $i++) {
-                $gironeBet = $gironiBetDict[$i];
-                $gironeBetId = $gironeBet["id"];
-                $pointsHandler = new PointsHandler();
-                $gironeBetPoints = $pointsHandler->calcGironiBetPoints($data, $gironeBet);
-                //echo $gironeBetPoints;
-                $sql .= "UPDATE `gironi_bet` SET `points`= '$gironeBetPoints' WHERE `id`='$gironeBetId';";
+            $gironeBet = $gironiBetDict[$i];
+            $gironeBetId = $gironeBet["id"];
+            $pointsHandler = new PointsHandler();
+            $gironeBetPoints = $pointsHandler->calcGironiBetPoints($data, $gironeBet);
+            echo $gironeBetPoints;
+            $sql .= "UPDATE `gironi_bet` SET `points`= '$gironeBetPoints' WHERE `id`='$gironeBetId';";
         }
         //echo $sql;
         $gironeBetQuery = mysqli_multi_query($connection, $sql);
@@ -237,7 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'DELETE') :
 
     $sql = "DELETE FROM `gironi` WHERE `id` = $id";
     $query = mysqli_query($connection, $sql);
-    
+
     if ($query) sendJson(200, 'You have successfully deleted a match.');
     sendJson(500, 'Something going wrong.');
 endif;
