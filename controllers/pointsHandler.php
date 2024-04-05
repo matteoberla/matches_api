@@ -100,11 +100,11 @@ class PointsHandler {
         $goal2Bet = $matchBet["goal_team_2"];
         $resultBet = $matchBet["result"];
 
-        if($team1 == null || $team2 == null){
+        if($team1 === null || $team2 === null){
             return null;
         }
 
-        if($goal1 == null || $goal2 == null){
+        if($goal1 === null || $goal2 === null){
             return null;
         }
 
@@ -198,7 +198,7 @@ class PointsHandler {
             $team1 = $value["id_team_1"];
             $team2 = $value["id_team_2"];
 
-            if($team1 == null || $team2 == null){
+            if($team1 === null || $team2 === null){
                 continue;
             }
 
