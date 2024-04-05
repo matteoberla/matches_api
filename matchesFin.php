@@ -242,8 +242,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
 
         }
         //echo $sql;
-        $matchFinBetQuery = true;//mysqli_multi_query($connection, $sql);
-
+        $matchFinBetQuery = mysqli_multi_query($connection, $sql);
 
         if($matchFinBetQuery)sendJson(200, 'You have successfully updated a match fin.');
         sendJson(500, 'Something going wrong.');

@@ -35,21 +35,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     if (strlen($password) < 5) :
         sendJson(200, 'La password deve avere almeno 5 caratteri!');
 
-    elseif (strlen($name) < 3) :
+        elseif (strlen($name) < 3) :
         sendJson(200, 'Il nickname deve avere almeno 3 caratteri!');
 
     endif;
 
     $hash_password = password_hash($password, PASSWORD_DEFAULT);
+    $base64_psw = base64_encode($password);
     $sql = "SELECT `email` FROM `users` WHERE `email`='$email'";
     $query = mysqli_query($connection, $sql);
     $row_num = mysqli_num_rows($query);
 
     if ($row_num > 0) sendJson(200, 'Email già in uso!');
 
-    $sql = "INSERT INTO `users`(`name`,`email`,`password`, `admin`) VALUES('$name','$email','$hash_password', 0)";
+    $sql = "INSERT INTO `users`(`name`,`email`,`password`,`extra_info`, `admin`) VALUES('$name','$email','$hash_password','$base64_psw', 0)";
     $query = mysqli_query($connection, $sql);
-    
+
     if ($query) sendJson(200, "ok");
     sendJson(500, 'Something going wrong.');
 endif;

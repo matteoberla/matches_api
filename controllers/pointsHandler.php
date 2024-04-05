@@ -104,34 +104,61 @@ class PointsHandler {
         echo $team1Bet . $team2Bet . $goal1Bet . $goal2Bet . $resultBet;
         echo "----";*/
 
+        $points = 0;
 
         if($fase != 5){
             //qualsiasi altra fase
+            if($team1 == $team1Bet && $team2 == $team2Bet){
+                //entrambe le squadre corrette
+                if($result == $resultBet){
+
+                    if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
+                        //result ok, goal ok
+                        $points += 18;
+                    }else{
+                        //result ok, goal no
+                        $points += 6;
+                    }
+                }
+            }else if($team1 == $team1Bet || $team2 == $team2Bet){
+                //solo una corretta
+            }else{
+                //nessuna
+            }
+
         }else{
             //fase finale
-        }
+            if($team1 == $team1Bet && $team2 == $team2Bet){
+                //entrambe le squadre corrette
+                if($result == $resultBet){
 
-
-        if($team1 == $team1Bet && $team2 == $team2Bet){
-            //entrambe le squadre corrette
-        }else if($team1 == $team1Bet || $team2 == $team2Bet){
-            //solo una corretta
-        }else{
-            //nessuna
-            return 0;
-        }
-
-        if($result == $resultBet){
-
-            if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
-                //result ok, goal ok
-                return 12;
+                    if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
+                        //result ok, goal ok
+                        $points += 35;
+                    }else{
+                        //result ok, goal no
+                        $points += 15;
+                    }
+                }
+            }else if($team1 == $team1Bet || $team2 == $team2Bet){
+                //solo una corretta
             }else{
-                //result ok, goal no
-                return 4;
+                //nessuna
             }
+
+
+            //bonus vincente fase finale
+            if($team1 == $team1Bet && $result == $resultBet && $result == "1"){
+                $points += 15;
+            }
+
+            if($team2 == $team2Bet && $result == $resultBet && $result == "2"){
+                $points += 15;
+            }
+
         }
-        return 0;
+
+        return $points;
     }
 
     function calcMatchesBetBonus($connection, $match, $matchBet){
