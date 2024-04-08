@@ -132,3 +132,9 @@ RewriteRule ^export_matches_fin/?$ matchesFin_export.php [L]
 
 # Riscrive /export_gironi a giroi_export.php
 RewriteRule ^export_gironi/?$ gironi_export.php [L]
+
+
+### HARD RESET ###
+
+# Riscrive /reset a reset.php
+RewriteRule ^reset/?$ reset.php [L]
