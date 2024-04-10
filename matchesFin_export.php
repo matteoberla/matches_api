@@ -9,10 +9,10 @@ header('Content-Type: application/json; charset=UTF-8');
 header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
 
 
-require_once __DIR__ . '../database.php';
-require_once __DIR__ . '../sendJson.php';
-require_once __DIR__ . '../controllers/authHandler.php';
-require_once __DIR__ . '../controllers/pointsHandler.php';
+require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/sendJson.php';
+require_once __DIR__ . '/controllers/authHandler.php';
+require_once __DIR__ . '/controllers/pointsHandler.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'OPTIONS') :
     sendJson(200, 'OK');
