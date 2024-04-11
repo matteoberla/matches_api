@@ -192,43 +192,66 @@ class PointsHandler {
 
         $bonus = 0;
         //ricavo lista squadre
-        foreach($matchesDict as $value){
+        if($fase >= 3){
+            foreach($matchesDict as $value){
 
-            //squadre della partita effettiva
-            $team1 = $value["id_team_1"];
-            $team2 = $value["id_team_2"];
+                //squadre della partita effettiva
+                $team1 = $value["id_team_1"];
+                $team2 = $value["id_team_2"];
 
-            if($team1 === null || $team2 === null){
-                continue;
-            }
+                if($team1 === null || $team2 === null){
+                    continue;
+                }
 
-            //se le squadre del $matchBet sono presenti tra la lista di squadre assegno punti
-            if($team1 == $team1Bet || $team1 == $team2Bet){
-                if($fase == 3){
-                    //quart
-                    $bonus += 10;
-                }else if($fase == 4){
-                    //semi
-                    $bonus += 15;
-                }else if($fase == 5){
-                    //finale
-                    $bonus += 25;
+                //se le squadre del $matchBet sono presenti tra la lista di squadre assegno punti
+                if($team1 == $team1Bet || $team1 == $team2Bet){
+                    if($fase == 3){
+                        //quart
+                        $bonus += 10;
+                    }else if($fase == 4){
+                        //semi
+                        $bonus += 15;
+                    }else if($fase == 5){
+                        //finale
+                        $bonus += 25;
+                    }
+                }
+                if($team2 == $team1Bet || $team2 == $team2Bet){
+                    if($fase == 3){
+                        //quart
+                        $bonus += 10;
+                    }else if($fase == 4){
+                        //semi
+                        $bonus += 15;
+                    }else if($fase == 5){
+                        //finale
+                        $bonus += 25;
+                    }
                 }
             }
-            if($team2 == $team1Bet || $team2 == $team2Bet){
-                if($fase == 3){
-                    //quart
-                    $bonus += 10;
-                }else if($fase == 4){
-                    //semi
-                    $bonus += 15;
-                }else if($fase == 5){
-                    //finale
-                    $bonus += 25;
+        }else{
+            //bonus migliori terze
+            $team1 = $match["id_team_1"];
+            $team2 = $match["id_team_2"];
+            $des1 = $match["des_1"];
+            $des2 = $match["des_2"];
+
+            //bonus migliore 3a
+            if(str_contains($des1, "3")){
+                if($team1 == $team1Bet){
+                    $bonus += 5;
                 }
             }
+
+            //bonus migliore 3a
+            if(str_contains($des2, "3")){
+                if($team2 == $team2Bet){
+                    $bonus += 5;
+                }
+            }
+
+
         }
-
 
         return $bonus;
     }

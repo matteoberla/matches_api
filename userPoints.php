@@ -39,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
         COALESCE(mb.total_points, 0) AS total_matches_points,
         COALESCE(gb.total_points, 0) AS total_gironi_points,
         COALESCE(mfb.total_points, 0) AS total_matches_fin_points,
+        COALESCE(mfb_bonus_o.total_bonus, 0) AS total_matches_fin_bonus_ottavi_migliori_terze,
         COALESCE(mfb_bonus_q.total_bonus, 0) AS total_matches_fin_bonus_quarti,
         COALESCE(mfb_bonus_s.total_bonus, 0) AS total_matches_fin_bonus_semi,
         COALESCE(mfb_bonus_f.total_bonus, 0) AS total_matches_fin_bonus_final,
@@ -90,6 +91,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
                 GROUP BY
                     user_id
             ) mfb_bonus_tot ON u.id = mfb_bonus_tot.user_id
+        LEFT JOIN
+            (
+                SELECT
+                    user_id,
+                    SUM(bonus) AS total_bonus
+                FROM
+                    matches_fin_bet as mfb
+                JOIN
+                    matches_fin AS mf ON mfb.match_id = mf.id
+                WHERE
+                    mf.fase = 2
+                GROUP BY
+                    user_id
+            ) mfb_bonus_o ON u.id = mfb_bonus_o.user_id
         LEFT JOIN
             (
                 SELECT
