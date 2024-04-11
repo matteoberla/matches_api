@@ -12,7 +12,7 @@ require_once __DIR__ . '/database.php';
 require_once __DIR__ . '/controllers/jwtHandler.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') :
-    
+
     $data = json_decode(file_get_contents('php://input'));
 
     if (
@@ -31,11 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     $email = mysqli_real_escape_string($connection, trim($data->email));
     $password = trim($data->password);
 
-    if (strlen($password) < 8) :
-        sendJson(200, 'Password troppo corta!');
-    endif;
-
-    $sql = "SELECT users.*, conf.datetime as dt_scadenza FROM `users`,`conf` WHERE users.email='$email' AND conf.id=1";
+    $sql = "SELECT users.*, conf.datetime as dt_scadenza FROM `users`,`conf` WHERE (users.email='$email' OR users.name='$email') AND conf.id=1";
     $query = mysqli_query($connection, $sql);
     $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     if ($row === null) sendJson(200, 'Utente non trovato! (Email non registrata)');
