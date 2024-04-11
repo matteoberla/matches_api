@@ -20,7 +20,7 @@ class PointsHandler {
 
             if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
                 //result ok, goal ok
-                return 12;
+                return 13;
             }else{
                 //result ok, goal no
                 return 4;
@@ -65,16 +65,16 @@ class PointsHandler {
             return 9;
         }else if($results[1] == 1){
             //1 ok
-            return 5;
+            return 4;
         }else if($results[2] == 1){
             //arrivata 2a ma impostata 1a
-            return 5;
+            return 4;
         }else if($results[2] == 2){
             //2 ok
-            return 5;
+            return 4;
         }else if($results[1] == 2){
             //arrivata 1a ma impostata 2a
-            return 5;
+            return 4;
         }
 
         //echo $pos1 . $pos2 . $pos3 . $pos4;
@@ -125,7 +125,7 @@ class PointsHandler {
 
                     if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
                         //result ok, goal ok
-                        $points += 18;
+                        $points += 19;
                     }else{
                         //result ok, goal no
                         $points += 6;
@@ -145,10 +145,10 @@ class PointsHandler {
 
                     if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
                         //result ok, goal ok
-                        $points += 35;
+                        $points += 32;
                     }else{
                         //result ok, goal no
-                        $points += 15;
+                        $points += 17;
                     }
                 }
             }else if($team1 == $team1Bet || $team2 == $team2Bet){
@@ -160,11 +160,11 @@ class PointsHandler {
 
             //bonus vincente fase finale
             if($team1 == $team1Bet && $result == $resultBet && $result == "1"){
-                $points += 15;
+                $points += 12;
             }
 
             if($team2 == $team2Bet && $result == $resultBet && $result == "2"){
-                $points += 15;
+                $points += 12;
             }
 
         }
@@ -231,10 +231,10 @@ class PointsHandler {
             }
         }else{
             //bonus migliori terze
-            $team1 = $match["id_team_1"];
-            $team2 = $match["id_team_2"];
-            $des1 = $match["des_1"];
-            $des2 = $match["des_2"];
+            $team1 = $match->id_team_1;
+            $team2 = $match->id_team_2;
+            $des1 = $match->des_1;
+            $des2 = $match->des_2;
 
             //bonus migliore 3a
             if(str_contains($des1, "3")){
