@@ -42,11 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
 
     $hash_password = password_hash($password, PASSWORD_DEFAULT);
     $base64_psw = base64_encode($password);
-    $sql = "SELECT `email` FROM `users` WHERE `email`='$email'";
+    $sql = "SELECT `email`,`name` FROM `users` WHERE `email`='$email' OR `name`='$name'";
     $query = mysqli_query($connection, $sql);
     $row_num = mysqli_num_rows($query);
 
-    if ($row_num > 0) sendJson(200, 'Email già in uso!');
+    if ($row_num > 0) sendJson(200, 'Nickname o tel. già in uso!');
 
     $sql = "INSERT INTO `users`(`name`,`email`,`password`,`extra_info`, `admin`) VALUES('$name','$email','$hash_password','$base64_psw', 0)";
     $query = mysqli_query($connection, $sql);
