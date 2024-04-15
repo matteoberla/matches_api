@@ -58,7 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
         !isset($data->goal_team_1) ||
         !isset($data->goal_team_2) ||
         !isset($data->result) ||
-        !isset($data->final_result) ||
         is_null(trim($data->user_id)) ||
         is_null(trim($data->match_id)) ||
         is_null(trim($data->id_team_1)) ||
@@ -108,7 +107,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
         !isset($data->goal_team_1) ||
         !isset($data->goal_team_2) ||
         !isset($data->result) ||
-        !isset($data->final_result) ||
         is_null(trim($data->user_id)) ||
         is_null(trim($data->match_id)) ||
         is_null(trim($data->id_team_1)) ||
