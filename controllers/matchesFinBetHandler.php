@@ -85,6 +85,14 @@ class MatchesFinBetHandler {
             $winnerTeam = $matchBet["id_team_1"];
         }else if($result == "2"){
             $winnerTeam = $matchBet["id_team_2"];
+        }else if($result == "X"){
+            //con pareggio verifico la squadra impostata dall'utente come vincitrice
+            $final_result = $matchBet["final_result"];
+            if($final_result == "1"){
+                $winnerTeam = $matchBet["id_team_1"];
+            }else if($final_result == "2"){
+                $winnerTeam = $matchBet["id_team_2"];
+            }
         }
         return $winnerTeam;
     }

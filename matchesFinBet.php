@@ -58,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
         !isset($data->goal_team_1) ||
         !isset($data->goal_team_2) ||
         !isset($data->result) ||
+        !isset($data->final_result) ||
         is_null(trim($data->user_id)) ||
         is_null(trim($data->match_id)) ||
         is_null(trim($data->id_team_1)) ||
@@ -69,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
         sendJson(
             422,
             'Please fill all the required fields & None of the fields should be empty.',
-            ['required_fields' => ['user_id', 'match_id','id_team_1', 'id_team_2', 'goal_team_1', 'goal_team_2', 'result']]
+            ['required_fields' => ['user_id', 'match_id','id_team_1', 'id_team_2', 'goal_team_1', 'goal_team_2', 'result', 'final_result']]
         );
     endif;
 
@@ -80,13 +81,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     $goal_team_1 = mysqli_real_escape_string($connection, trim($data->goal_team_1));
     $goal_team_2 = mysqli_real_escape_string($connection, trim($data->goal_team_2));
     $result = mysqli_real_escape_string($connection, trim($data->result));
+    if($data->final_result == null){
+        $final_result = 'NULL';
+    }else{
+        $final_result = mysqli_real_escape_string($connection, trim($data->final_result));
+        $final_result = "'$final_result'";
+    }
 
-    $sql = "INSERT INTO `matches_fin_bet` (`user_id`,`match_id`,`id_team_1`,`id_team_2`,`goal_team_1`,`goal_team_2`,`result`) VALUES($user_id,$match_id,$id_team_1,$id_team_2,$goal_team_1,$goal_team_2,'$result')";
+    $sql = "INSERT INTO `matches_fin_bet` (`user_id`,`match_id`,`id_team_1`,`id_team_2`,`goal_team_1`,`goal_team_2`,`result`, `final_result`) VALUES($user_id,$match_id,$id_team_1,$id_team_2,$goal_team_1,$goal_team_2,'$result', $final_result)";
     $query = mysqli_query($connection, $sql);
 
     $matchesFinBetHandler = new MatchesFinBetHandler();
     $matchesFinBetHandler->autocompileFinMatches($connection, $user_id, $match_id);
-    
+
     if ($query) sendJson(200, 'You have successfully registered a match.');
     sendJson(500, 'Something going wrong.');
 endif;
@@ -101,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
         !isset($data->goal_team_1) ||
         !isset($data->goal_team_2) ||
         !isset($data->result) ||
+        !isset($data->final_result) ||
         is_null(trim($data->user_id)) ||
         is_null(trim($data->match_id)) ||
         is_null(trim($data->id_team_1)) ||
@@ -112,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
         sendJson(
             422,
             'Please fill all the required fields & None of the fields should be empty.',
-            ['required_fields' => ['user_id', 'match_id','id_team_1', 'id_team_2', 'goal_team_1', 'goal_team_2', 'result']]
+            ['required_fields' => ['user_id', 'match_id','id_team_1', 'id_team_2', 'goal_team_1', 'goal_team_2', 'result', 'final_result']]
         );
     endif;
 
@@ -125,18 +133,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
     $goal_team_2 = mysqli_real_escape_string($connection, trim($data->goal_team_2));
     $result = mysqli_real_escape_string($connection, trim($data->result));
 
+    if($data->final_result == null){
+        $final_result = 'NULL';
+    }else{
+        $final_result = mysqli_real_escape_string($connection, trim($data->final_result));
+        $final_result = "'$final_result'";
+    }
+
     $sql = "SELECT `id` FROM `matches_fin_bet` WHERE `id`= $id";
     $query = mysqli_query($connection, $sql);
     $row_num = mysqli_num_rows($query);
 
     if ($row_num == 0) sendJson(404, 'This Match fin bet doesn\'t exists!');
 
-    $sql = "UPDATE `matches_fin_bet` SET `user_id`='$user_id',`match_id`=$match_id,`id_team_1`=$id_team_1,`id_team_2`=$id_team_2,`goal_team_1`=$goal_team_1,`goal_team_2`=$goal_team_2,`result`='$result'  WHERE `id` = $id";
+    $sql = "UPDATE `matches_fin_bet` SET `user_id`='$user_id',`match_id`=$match_id,`id_team_1`=$id_team_1,`id_team_2`=$id_team_2,`goal_team_1`=$goal_team_1,`goal_team_2`=$goal_team_2,`result`='$result',`final_result`=$final_result  WHERE `id` = $id";
     $query = mysqli_query($connection, $sql);
 
     $matchesFinBetHandler = new MatchesFinBetHandler();
     $matchesFinBetHandler->autocompileFinMatches($connection, $user_id, $match_id);
-    
+
     if ($query) sendJson(200, 'You have successfully updated a match fin bet.');
     sendJson(500, 'Something going wrong.');
 
@@ -159,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'DELETE') :
 
     $sql = "DELETE FROM `matches_fin_bet` WHERE `id` = $id";
     $query = mysqli_query($connection, $sql);
-    
+
     if ($query) sendJson(200, 'You have successfully deleted a match bet.');
     sendJson(500, 'Something going wrong.');
 endif;

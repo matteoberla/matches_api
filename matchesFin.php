@@ -120,7 +120,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
         $result = "NULL";
     }
 
-    $sql = "INSERT INTO `matches_fin` (`date`,`id_team_1`,`id_team_2`,`fase`,`n_match`,`goal_team_1`,`goal_team_2`,`result`,`des_1`,`des_2`) VALUES('$date',$id_team_1,$id_team_2,$fase,$n_match,$goal_team_1,$goal_team_1,$result,'$des_1','$des_2')";
+    $final_result = null;
+    if(isset($data->result)){
+        $final_result = mysqli_real_escape_string($connection, trim($data->final_result));
+        $final_result = "'$final_result'";
+    }
+
+    if(is_null($final_result)){
+        $final_result = "NULL";
+    }
+
+    $sql = "INSERT INTO `matches_fin` (`date`,`id_team_1`,`id_team_2`,`fase`,`n_match`,`goal_team_1`,`goal_team_2`,`result`,`final_result`,`des_1`,`des_2`) VALUES('$date',$id_team_1,$id_team_2,$fase,$n_match,$goal_team_1,$goal_team_1,$result,$final_result,'$des_1','$des_2')";
     $query = mysqli_query($connection, $sql);
 
     if ($query) sendJson(200, 'You have successfully registered a match fin.');
@@ -202,13 +212,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
         $result = "NULL";
     }
 
+    $final_result = null;
+    if(isset($data->result)){
+        $final_result = mysqli_real_escape_string($connection, trim($data->final_result));
+        $final_result = "'$final_result'";
+    }
+
+    if(is_null($final_result)){
+        $final_result = "NULL";
+    }
+
     $sql = "SELECT `id` FROM `matches_fin` WHERE `id`= $id";
     $query = mysqli_query($connection, $sql);
     $row_num = mysqli_num_rows($query);
 
     if ($row_num == 0) sendJson(404, 'This Match fin doesn\'t exists!');
 
-    $sql = "UPDATE `matches_fin` SET `date`='$date',`id_team_1`=$id_team_1,`id_team_2`=$id_team_2,`fase`=$fase,`n_match`=$n_match,`goal_team_1`=$goal_team_1,`goal_team_2`=$goal_team_2,`result`=$result,`des_1`='$des_1',`des_2`='$des_2'  WHERE `id` = $id";
+    $sql = "UPDATE `matches_fin` SET `date`='$date',`id_team_1`=$id_team_1,`id_team_2`=$id_team_2,`fase`=$fase,`n_match`=$n_match,`goal_team_1`=$goal_team_1,`goal_team_2`=$goal_team_2,`result`=$result,`final_result`=$final_result,`des_1`='$des_1',`des_2`='$des_2'  WHERE `id` = $id";
     $query = mysqli_query($connection, $sql);
 
     if ($query) {

@@ -92,6 +92,7 @@ class PointsHandler {
         $goal1 = $match->goal_team_1;
         $goal2 = $match->goal_team_2;
         $result = $match->result;
+        $finalResult = $match->final_result;
 
         //matchbet values
         $team1Bet = $matchBet["id_team_1"];
@@ -99,6 +100,7 @@ class PointsHandler {
         $goal1Bet = $matchBet["goal_team_1"];
         $goal2Bet = $matchBet["goal_team_2"];
         $resultBet = $matchBet["result"];
+        $finalResultBet = $matchBet["final_result"];
 
         if($team1 === null || $team2 === null){
             return null;
@@ -118,7 +120,7 @@ class PointsHandler {
         $points = 0;
 
         if($fase != 5){
-            //qualsiasi altra fase
+            //qualsiasi altra fase diversa dalla finale
             if($team1 == $team1Bet && $team2 == $team2Bet){
                 //entrambe le squadre corrette
                 if($result == $resultBet){
@@ -159,11 +161,12 @@ class PointsHandler {
 
 
             //bonus vincente fase finale
-            if($team1 == $team1Bet && $result == $resultBet && $result == "1"){
+            //se indovinata squadra && (risultato = risultato scommessa & risultato = 1) oppure (risultato finale = risultato finale scommessa & risultato = 1)
+            if($team1 == $team1Bet && (($result == $resultBet && $result == "1") || ($finalResult == $finalResultBet && $finalResult == "1")) ){
                 $points += 12;
             }
 
-            if($team2 == $team2Bet && $result == $resultBet && $result == "2"){
+            if($team2 == $team2Bet && (($result == $resultBet && $result == "2") || ($finalResult == $finalResultBet && $finalResult == "2")) ){
                 $points += 12;
             }
 
