@@ -282,7 +282,7 @@ class PointsHandler {
 
         if($idTeam == $idTeamBet){
             //squadra ok
-            return 25;
+            return 20;
         }else{
             //squadra no
             return 0;
@@ -303,7 +303,7 @@ class PointsHandler {
 
         if($idTeam == $idTeamBet){
             //squadra ok
-            return 30;
+            return 25;
         }else{
             //squadra no
             return 0;
@@ -328,9 +328,9 @@ class PointsHandler {
         if($is_valid == 1){
             //valido -> verifico numero scommessa
             if($bet_num == 1){
-                return 30;
-            }else{
                 return 20;
+            }else{
+                return 10;
             }
         }else if($is_valid == 0){
             return 0;
