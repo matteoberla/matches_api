@@ -92,7 +92,6 @@ class PointsHandler {
         $goal1 = $match->goal_team_1;
         $goal2 = $match->goal_team_2;
         $result = $match->result;
-        $finalResult = $match->final_result;
 
         //matchbet values
         $team1Bet = $matchBet["id_team_1"];
@@ -100,7 +99,6 @@ class PointsHandler {
         $goal1Bet = $matchBet["goal_team_1"];
         $goal2Bet = $matchBet["goal_team_2"];
         $resultBet = $matchBet["result"];
-        $finalResultBet = $matchBet["final_result"];
 
         if($team1 === null || $team2 === null){
             return null;
@@ -159,17 +157,6 @@ class PointsHandler {
                 //nessuna
             }
 
-
-            //bonus vincente fase finale
-            //se indovinata squadra && (risultato = risultato scommessa & risultato = 1) oppure (risultato finale = risultato finale scommessa & risultato = 1)
-            if($team1 == $team1Bet && (($result == $resultBet && $result == "1") || ($finalResult == $finalResultBet && $finalResult == "1")) ){
-                $points += 12;
-            }
-
-            if($team2 == $team2Bet && (($result == $resultBet && $result == "2") || ($finalResult == $finalResultBet && $finalResult == "2")) ){
-                $points += 12;
-            }
-
         }
 
         return $points;
@@ -181,6 +168,8 @@ class PointsHandler {
         //squadre impostate nella scommessa
         $team1Bet = $matchBet["id_team_1"];
         $team2Bet = $matchBet["id_team_2"];
+        $resultBet = $matchBet["result"];
+        $finalResultBet = $matchBet["final_result"];
 
         //guardo lista partite della fase
         $sql = "SELECT
@@ -232,7 +221,11 @@ class PointsHandler {
                     }
                 }
             }
-        }else{
+        }
+
+
+        if($fase == 2){
+            //fase ottavi
             //bonus migliori terze
             $team1 = $match->id_team_1;
             $team2 = $match->id_team_2;
@@ -252,9 +245,26 @@ class PointsHandler {
                     $bonus += 5;
                 }
             }
-
-
         }
+
+
+        if($fase == 5) {
+            //fase finale
+            $team1 = $match->id_team_1;
+            $team2 = $match->id_team_2;
+            $result = $match->result;
+            $finalResult = $match->final_result;
+            //bonus vincente fase finale
+            //se indovinata squadra && (risultato = risultato scommessa & risultato = 1) oppure (risultato finale = risultato finale scommessa & risultato = 1)
+            if($team1 == $team1Bet && (($result == $resultBet && $result == "1") || ($finalResult == $finalResultBet && $finalResult == "1")) ){
+                $bonus += 12;
+            }
+
+            if($team2 == $team2Bet && (($result == $resultBet && $result == "2") || ($finalResult == $finalResultBet && $finalResult == "2")) ){
+                $bonus += 12;
+            }
+        }
+
 
         return $bonus;
     }

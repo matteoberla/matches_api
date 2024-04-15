@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     }
 
     $final_result = null;
-    if(isset($data->result)){
+    if(isset($data->final_result)){
         $final_result = mysqli_real_escape_string($connection, trim($data->final_result));
         $final_result = "'$final_result'";
     }
@@ -213,7 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
     }
 
     $final_result = null;
-    if(isset($data->result)){
+    if(isset($data->final_result)){
         $final_result = mysqli_real_escape_string($connection, trim($data->final_result));
         $final_result = "'$final_result'";
     }
