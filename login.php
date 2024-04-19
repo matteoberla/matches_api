@@ -36,6 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     if ($row === null) sendJson(200, 'Utente non trovato! (Utente / Tel. non registrati)');
     if (!password_verify($password, $row['password'])) sendJson(200, 'Email o Password errati!');
+
+    $row["impersona"] = false;
+    if(isset($data->impersona) && $data->impersona==true){
+        $row["impersona"] = true;
+    }
+
     $response = [
         "token" => encodeToken($row['id'])
     ];
