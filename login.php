@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     if (!password_verify($password, $row['password'])) sendJson(200, 'Email o Password errati!');
 
     $row["impersona"] = false;
-    if(isset($data->impersona) && $data->impersona==true){
+    if(isset($data->impersona) && $data->impersona==="true"){
         $row["impersona"] = true;
     }
 
