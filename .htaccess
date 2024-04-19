@@ -10,8 +10,8 @@ RewriteRule ^register/?$ register.php [L]
 # Riscrive /login a login.php
 RewriteRule ^login/?$ login.php [L]
 
-# Riscrive /impersona/1 a impersona.php?id=1
-RewriteRule ^impersona/([0-9]+)/?$ impersona.php?id=$1 [L,QSA]
+# Riscrive /impersona a impersona.php
+RewriteRule ^impersona/?$ impersona.php [L]
 
 ### teams
 

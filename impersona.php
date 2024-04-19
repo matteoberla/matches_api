@@ -18,14 +18,21 @@ require_once __DIR__ . '/controllers/authHandler.php';
 //operazioni admin
 $authHandler = new AuthHandler();
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') :
+if ($_SERVER['REQUEST_METHOD'] == 'POST') :
 
-    $authHandler->checkIfAdmin($connection);
+    $data = json_decode(file_get_contents('php://input'));
+
+    if(isset($data->impersona) && $data->impersona == true){
+        //se sono in impersona passo
+    }else{
+        $authHandler->checkIfAdmin($connection);
+    }
+
 
     $id = null;
-    if(isset($_GET['id'])){
+    if(isset($data->id)){
         //singolo utente
-        $id = $_GET['id'];
+        $id = $data->id;
     }
 
     $sql = "SELECT email, extra_info FROM `users` WHERE `id`='$id'";
