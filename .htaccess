@@ -1,4 +1,5 @@
 RewriteEngine On
+RewriteRule .* - [E=Cache-Control:no-cache]
 ### user
 
 # Riscrive /home a home.php
