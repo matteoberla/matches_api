@@ -138,6 +138,11 @@ RewriteRule ^export_matches_fin/?$ matchesFin_export.php [L]
 RewriteRule ^export_gironi/?$ gironi_export.php [L]
 
 
+### compilazione gironi
+# Riscrive /compila_gironi/A a compilaGironi.php?girone=A
+RewriteRule ^compila_gironi/([A-Z]+)/?$ compilaGironi.php?girone=$1 [L,QSA]
+
+
 ### HARD RESET ###
 
 # Riscrive /reset a reset.php
