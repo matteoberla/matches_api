@@ -134,8 +134,21 @@ RewriteRule ^export_matches/?$ matches_export.php [L]
 # Riscrive /export_matches_fin a matchesFin_export.php
 RewriteRule ^export_matches_fin/?$ matchesFin_export.php [L]
 
-# Riscrive /export_gironi a giroi_export.php
+# Riscrive /export_gironi a gironi_export.php
 RewriteRule ^export_gironi/?$ gironi_export.php [L]
+
+# Riscrive /export_goal_veloce a goalVeloce_export.php
+RewriteRule ^export_goal_veloce/?$ goalVeloce_export.php [L]
+
+
+# Riscrive /export_team_rivelaz a teamRivelaz_export.php
+RewriteRule ^export_team_rivelaz/?$ teamRivelaz_export.php [L]
+
+# Riscrive /export_capo_azz a capoAzz_export.php
+RewriteRule ^export_capo_azz/?$ capoAzz_export.php [L]
+
+# Riscrive /export_capo_euro a capoEuro_export.php
+RewriteRule ^export_capo_euro/?$ capoEuro_export.php [L]
 
 
 ### compilazione gironi
