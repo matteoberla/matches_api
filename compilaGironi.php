@@ -101,81 +101,92 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
     }
     array_multisort($points, SORT_DESC, $pointsDict);
 
+    //verifica ordinamento punti finchè non ci sono più sistemazioni da fare
+    $has_changes = false;
+    do{
+        $has_changes = false;
+        $prevKey = null;
 
-    //verifica ordinamento punti
-    $prevKey = null;
-
-    foreach ($pointsDict as $key => $row)
-    {
-        if(is_null($prevKey)){
-            $prevKey = $key;
-            continue;
-        }
-
-        $prevTeamInfo = $pointsDict[$prevKey];
-        $currentTeamInfo = $row;
-
-        //stesso punteggio
-        if($prevTeamInfo["pts"] == $currentTeamInfo["pts"]){
-            //echo $prevTeamInfo["team_id"] . " uguale " . $currentTeamInfo["team_id"];
-
-            //verifico scontro diretto
-            if(in_array($currentTeamInfo["team_id"], $pointsDict[$prevKey]["win"])){
-                //se squadra corrente è nelle vittorie della squadra precedente -> ha vinto la squadra precedente
-                $pointsDict[$prevKey]["order"] += 1;
-            }else if(in_array($prevTeamInfo["team_id"], $pointsDict[$key]["win"])){
-                //se squadra precente è nelle vittorie della squadra corrente -> ha vinto la squadra corrente
-                $pointsDict[$key]["order"] += 1;
-            }else{
-                //in caso di pareggio
-
-                $totFatti1 = $prevTeamInfo["goal_fatti"];
-                $totSubiti1 = $prevTeamInfo["goal_subiti"];
-                $diff1 = $totFatti1 - $totSubiti1;
-
-                $totFatti2 = $currentTeamInfo["goal_fatti"];
-                $totSubiti2 = $currentTeamInfo["goal_subiti"];
-                $diff2 = $totFatti2 - $totSubiti2;
-
-                if($diff1 > $diff2){
-                    //squadra prev con maggiore diff reti
-                    $pointsDict[$prevKey]["order"] += 1;
-                }else if($diff2 > $diff1){
-                    //squadra corrente con maggiore diff reti
-                    $pointsDict[$key]["order"] += 1;
-                }else{
-                    //differenza reti uguali -> guarto tot goal
-
-                    if($totFatti1 > $totFatti2){
-                        //squadra prev con maggiori goal
-                        $pointsDict[$prevKey]["order"] += 1;
-                    }else if($totFatti2 > $totFatti1){
-                        //squadra corrente con maggiori goal
-                        $pointsDict[$key]["order"] += 1;
-                    }else{
-                        //non gestito
-                    }
-
-                }
+        foreach ($pointsDict as $key => $row)
+        {
+            if(is_null($prevKey)){
+                $prevKey = $key;
+                continue;
             }
 
+            $prevTeamInfo = $pointsDict[$prevKey];
+            $currentTeamInfo = $row;
+
+            //stesso punteggio
+            if($prevTeamInfo["pts"] == $currentTeamInfo["pts"]){
+                //echo $prevTeamInfo["team_id"] . " uguale " . $currentTeamInfo["team_id"];
+
+                //verifico scontro diretto
+                if(in_array($currentTeamInfo["team_id"], $pointsDict[$prevKey]["win"])){
+                    //se squadra corrente è nelle vittorie della squadra precedente -> ha vinto la squadra precedente
+                    $pointsDict[$prevKey]["order"] += 1;
+                }else if(in_array($prevTeamInfo["team_id"], $pointsDict[$key]["win"])){
+                    //se squadra precente è nelle vittorie della squadra corrente -> ha vinto la squadra corrente
+                    $pointsDict[$key]["order"] += 1;
+                }else{
+                    //in caso di pareggio
+
+                    $totFatti1 = $prevTeamInfo["goal_fatti"];
+                    $totSubiti1 = $prevTeamInfo["goal_subiti"];
+                    $diff1 = $totFatti1 - $totSubiti1;
+                    $order1 = $prevTeamInfo["order"];
+
+                    $totFatti2 = $currentTeamInfo["goal_fatti"];
+                    $totSubiti2 = $currentTeamInfo["goal_subiti"];
+                    $diff2 = $totFatti2 - $totSubiti2;
+                    $order2 = $currentTeamInfo["order"];
+
+                    if($diff1 > $diff2 && $order1 <= $order2){
+                        //squadra prev con maggiore diff reti e ordinamento scombinato
+                        $pointsDict[$prevKey]["order"] += 1;
+                        $has_changes = true;
+                    }else if($diff2 > $diff1 && $order2 <= $order1){
+                        //squadra corrente con maggiore diff reti
+                        $pointsDict[$key]["order"] += 1;
+                        $has_changes = true;
+                    }else{
+                        //differenza reti uguali -> guarto tot goal
+
+                        if($totFatti1 > $totFatti2 && $order1 <= $order2){
+                            //squadra prev con maggiori goal
+                            $pointsDict[$prevKey]["order"] += 1;
+                            $has_changes = true;
+                        }else if($totFatti2 > $totFatti1 && $order2 <= $order1){
+                            //squadra corrente con maggiori goal
+                            $pointsDict[$key]["order"] += 1;
+                            $has_changes = true;
+                        }else{
+                            //non gestito
+                        }
+
+                    }
+                }
+
+            }
+
+            //salvo elemento corrente su prevKey
+            $prevKey = $key;
+
         }
 
-        //salvo elemento corrente su prevKey
-        $prevKey = $key;
+        //ordinamento per punti + order
+        $points = array();
+        $order = array();
+        foreach ($pointsDict as $key => $row)
+        {
+            $points[$key] = $row['pts'];
+            $order[$key] = $row['order'];
+        }
+        array_multisort($points, SORT_DESC, $order, SORT_DESC, $pointsDict);
+    }while(!($has_changes == false));//esci se non ci sono state modifiche
 
-    }
 
-    //ordinamento per punti + order
-    $points = array();
-    $order = array();
-    foreach ($pointsDict as $key => $row)
-    {
-        $points[$key] = $row['pts'];
-        $order[$key] = $row['order'];
-    }
-    array_multisort($points, SORT_DESC, $order, SORT_DESC, $pointsDict);
-
+    //sendJson(200, '', $pointsDict);
 
     $response = array();
     $pos = 1;
