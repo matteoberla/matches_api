@@ -25,36 +25,70 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     $loggedUserId = $authHandler->getLoggedUserId();
     $data = json_decode(file_get_contents('php://input'));
 
-    if(isset($data->reset)){
+    if(isset($data->reset) && $data->reset == true){
 
         //solo matteo berlato
         if($loggedUserId == 1){
+            $sqlDel = "";
+            if(isset($data->reset_bet) && $data->reset_bet == true){
+                //verifica presenza user id
+                $userId = null;
+                $sqlWhere = "";
+                if(isset($data->user_id)){
+                    $userId = $data->user_id;
+                    $sqlWhere = " WHERE user_id = ". $userId;
+                }
 
-            $sqlReset = "";
+                //eliminazioni bet
+                $sqlDelCapoAzzBet = "DELETE FROM capo_azz_bet ". $sqlWhere .";";
+                $sqlDelCapoEuroBet = "DELETE FROM capo_euro_bet ". $sqlWhere .";";
+                $sqlDelGironiBet = "DELETE FROM gironi_bet ". $sqlWhere .";";
+                $sqlDelGoalVeloceBet = "DELETE FROM goal_veloce_bet ". $sqlWhere .";";
+                $sqlDelMatchesBet = "DELETE FROM matches_bet ". $sqlWhere .";";
+                $sqlDelMatchesFinBet = "DELETE FROM matches_fin_bet ". $sqlWhere .";";
+                $sqlDelTeamRivelazBet = "DELETE FROM team_rivelaz_bet ". $sqlWhere .";";
 
-            $sqlDelCapoAzzBet = "DELETE FROM capo_azz_bet;";
-            $sqlDelCapoEuroBet = "DELETE FROM capo_euro_bet;";
-            $sqlDelGironiBet = "DELETE FROM gironi_bet;";
-            $sqlDelGoalVeloceBet = "DELETE FROM goal_veloce_bet;";
-            $sqlDelMatchesBet = "DELETE FROM matches_bet;";
-            $sqlDelMatchesFinBet = "DELETE FROM matches_fin_bet;";
-            $sqlDelTeamRivelazBet = "DELETE FROM team_rivelaz_bet;";
+                $sqlDel = $sqlDelCapoAzzBet . $sqlDelCapoEuroBet . $sqlDelGironiBet . $sqlDelGoalVeloceBet . $sqlDelMatchesBet . $sqlDelMatchesFinBet . $sqlDelTeamRivelazBet;
+            }
 
-            $sqlUpdGironi = "UPDATE gironi SET pos_1=NULL, pos_2=NULL, pos_3=NULL, pos_4=NULL;";
-            $sqlUpdGoalVeloce = "UPDATE goal_veloce SET id_team=NULL;";
-            $sqlUpdMatches = "UPDATE matches SET goal_team_1=NULL, goal_team_2=NULL, result=NULL;";
-            $sqlUpdMatchesFin = "UPDATE matches_fin SET id_team_1=NULL, id_team_2=NULL, goal_team_1=NULL, goal_team_2=NULL, result=NULL;";
-            $sqlUpdTeamRivelaz = "UPDATE team_rivelaz SET id_team=NULL;";
+            $sqlUpd = "";
+            if(isset($data->reset_data) && $data->reset_data == true){
+                $sqlUpdGironi = "UPDATE gironi SET pos_1=NULL, pos_2=NULL, pos_3=NULL, pos_4=NULL;";
+                $sqlUpdGoalVeloce = "UPDATE goal_veloce SET id_team=NULL;";
+                $sqlUpdMatches = "UPDATE matches SET goal_team_1=NULL, goal_team_2=NULL, result=NULL;";
+                $sqlUpdMatchesFin = "UPDATE matches_fin SET id_team_1=NULL, id_team_2=NULL, goal_team_1=NULL, goal_team_2=NULL, result=NULL;";
+                $sqlUpdTeamRivelaz = "UPDATE team_rivelaz SET id_team=NULL;";
 
-            $sqlDel = $sqlDelCapoAzzBet . $sqlDelCapoEuroBet . $sqlDelGironiBet . $sqlDelGoalVeloceBet . $sqlDelMatchesBet . $sqlDelMatchesFinBet . $sqlDelTeamRivelazBet;
-            $sqlUpd = $sqlUpdGironi . $sqlUpdGoalVeloce . $sqlUpdMatches . $sqlUpdMatchesFin . $sqlUpdTeamRivelaz;
+                $sqlUpd = $sqlUpdGironi . $sqlUpdGoalVeloce . $sqlUpdMatches . $sqlUpdMatchesFin . $sqlUpdTeamRivelaz;
+
+            }
 
             $sqlReset = $sqlDel . $sqlUpd;
+            if($sqlReset != ""){
+                $query = mysqli_multi_query($connection, $sqlReset);
+                if(!$query) sendJson(500, 'Something going wrong.');
+            }
 
-            $query = mysqli_multi_query($connection, $sqlReset);
+            $response = array();
+            $response['reset'] = $data->reset;
+            $response['user_id'] = null;
+            if(isset($data->user_id)){
+                $response['user_id'] = $data->user_id;
+            }
 
-            if ($query) sendJson(200, 'RESET OK');
-            sendJson(500, 'Something going wrong.');
+            $response['reset_bet'] = null;
+            if(isset($data->reset_bet)){
+                $response['reset_bet'] = $data->reset_bet;
+            }
+
+            $response['reset_data'] = null;
+            if(isset($data->reset_data)){
+                $response['reset_data'] = $data->reset_data;
+            }
+
+
+
+            sendJson(200, '', $response);
         }
 
         sendJson(
