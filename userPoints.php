@@ -32,9 +32,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
         $whereCase = "WHERE u.id = '$id'";
     }
 
+    //verifica se richiesto da superuser
+    $adminUser = $authHandler->userIsAdmin($connection);
+    $selectExtraInfo = "";
+    if($adminUser){
+        $selectExtraInfo = "u.extra_info,";
+    }
+
     $sql = "SELECT
         u.id AS user_id,
+        u.email AS nickname,
         u.name AS username,
+        ". $selectExtraInfo ."
         u.isActive,
         COALESCE(mb.total_points, 0) AS total_matches_points,
         COALESCE(gb.total_points, 0) AS total_gironi_points,
