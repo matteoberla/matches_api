@@ -101,6 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
     }
     array_multisort($points, SORT_DESC, $pointsDict);
 
+    //sendJson(200, '', $pointsDict);
+
     //verifica ordinamento punti finchè non ci sono più sistemazioni da fare
     $has_changes = false;
     do{
@@ -149,7 +151,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
                         //squadra corrente con maggiore diff reti
                         $pointsDict[$key]["order"] += 1;
                         $has_changes = true;
-                    }else{
+                    }else if($diff1 == $diff2){
                         //differenza reti uguali -> guarto tot goal
 
                         if($totFatti1 > $totFatti2 && $order1 <= $order2){
