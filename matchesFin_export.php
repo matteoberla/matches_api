@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
             WHERE matches_fin_bet.match_id = ".$match_id."
 
 
-            ORDER BY matches_fin_bet.user_id, matches_fin_bet.match_id;";
+            ORDER BY matches_fin_bet.points DESC, matches_fin_bet.user_id, matches_fin_bet.match_id;";
         $query = mysqli_query($connection, $sql);
 
         $betsDict = $query->fetch_all(MYSQLI_ASSOC);
