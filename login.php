@@ -31,7 +31,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
     $email = mysqli_real_escape_string($connection, trim($data->email));
     $password = trim($data->password);
 
-    $sql = "SELECT users.*, (SELECT conf.datetime FROM conf WHERE conf.id=1) as dt_scadenza, (SELECT conf.value_int FROM conf WHERE conf.id=2) as app_ver FROM `users` WHERE (users.email='$email' OR users.name='$email')";
+    $sql = "SELECT
+                users.*,
+                (SELECT conf.datetime FROM conf WHERE conf.id=1) as dt_scadenza,
+                (SELECT conf.value_int FROM conf WHERE conf.id=2) as app_ver,
+                (SELECT conf.value_int FROM conf WHERE conf.id=3) as show_points
+            FROM
+                `users`
+            WHERE
+                (users.email='$email' OR users.name='$email')";
     $query = mysqli_query($connection, $sql);
     $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     if ($row === null) sendJson(200, 'Utente non trovato! (Utente / Tel. non registrati)');
