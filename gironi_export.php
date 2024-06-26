@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
 
             WHERE gironi_bet.girone = '".$girone."'
 
-            ORDER BY gironi_bet.points, gironi_bet.user_id, gironi_bet.girone;";
+            ORDER BY gironi_bet.points DESC, gironi_bet.user_id, gironi_bet.girone;";
         $query = mysqli_query($connection, $sql);
 
         $betsDict = $query->fetch_all(MYSQLI_ASSOC);

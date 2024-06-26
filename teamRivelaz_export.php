@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
             LEFT JOIN teams AS teams ON team_rivelaz_bet.id_team = teams.id
 
 
-            ORDER BY team_rivelaz_bet.points, team_rivelaz_bet.user_id;";
+            ORDER BY team_rivelaz_bet.points DESC, team_rivelaz_bet.user_id;";
     $query = mysqli_query($connection, $sql);
 
     $betsDict = $query->fetch_all(MYSQLI_ASSOC);
