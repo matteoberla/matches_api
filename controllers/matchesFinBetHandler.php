@@ -45,14 +45,18 @@ class MatchesFinBetHandler {
         if($winnerTeam != null){
             //numero partita successiva
             $next_match_num = $this->matchesConnections[$nMatch][0];
-            //partita successiva
-            $next_match = $this->getMatchFinByNMatch($connection, $next_match_num);
-            //id partita successiva
-            $next_match_id = $next_match["id"];
-            //compilazione scommessa
-            $this->compileNextBet($connection, $user_id,$next_match_id, $winnerTeam, $this->matchesConnections[$nMatch][1]);
-            //ciclo per la partita successiva
-            $this->autocompileFinMatches($connection, $user_id, $next_match_id);
+
+
+            if(!is_null($next_match_num)){
+                //partita successiva
+                $next_match = $this->getMatchFinByNMatch($connection, $next_match_num);
+                //id partita successiva
+                $next_match_id = $next_match["id"];
+                //compilazione scommessa
+                $this->compileNextBet($connection, $user_id,$next_match_id, $winnerTeam, $this->matchesConnections[$nMatch][1]);
+                //ciclo per la partita successiva
+                $this->autocompileFinMatches($connection, $user_id, $next_match_id);
+            }
         }
     }
 
@@ -101,7 +105,7 @@ class MatchesFinBetHandler {
         //get bet
         $nextMatchBet = $this->getMatchFinBetByUserAndMatch($connection, $user_id, $next_match_id);
 
-        if($nextMatchBet == null){
+        if(is_null($nextMatchBet)){
             //INSERISCO BET
             //echo "ins";
 

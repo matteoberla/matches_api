@@ -99,6 +99,11 @@ class PointsHandler {
         $goal1Bet = $matchBet["goal_team_1"];
         $goal2Bet = $matchBet["goal_team_2"];
         $resultBet = $matchBet["result"];
+        $pointsBet = $matchBet["points"];
+
+        if(is_null($pointsBet)){
+            $pointsBet = 0;
+        }
 
         if($team1 === null || $team2 === null){
             return null;
@@ -117,46 +122,65 @@ class PointsHandler {
 
         $points = 0;
 
-        if($fase != 5){
-            //qualsiasi altra fase diversa dalla finale
-            if($team1 == $team1Bet && $team2 == $team2Bet){
-                //entrambe le squadre corrette
-                if($result == $resultBet){
 
-                    if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
-                        //result ok, goal ok
+        //qualsiasi altra fase diversa dalla finale
+        if($team1 == $team1Bet && $team2 == $team2Bet){
+            //entrambe le squadre corrette
+            if($result == $resultBet){
+
+                if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
+                    //result ok, goal ok
+                    if($fase != 5){
                         $points += 19;
                     }else{
-                        //result ok, goal no
-                        $points += 6;
-                    }
-                }
-            }else if($team1 == $team1Bet || $team2 == $team2Bet){
-                //solo una corretta
-            }else{
-                //nessuna
-            }
-
-        }else{
-            //fase finale
-            if($team1 == $team1Bet && $team2 == $team2Bet){
-                //entrambe le squadre corrette
-                if($result == $resultBet){
-
-                    if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
-                        //result ok, goal ok
+                        //finale
                         $points += 32;
+                    }
+
+                }else{
+                    //result ok, goal no
+                    if($fase != 5){
+                        $points += 6;
                     }else{
-                        //result ok, goal no
+                        //finale
                         $points += 17;
                     }
                 }
-            }else if($team1 == $team1Bet || $team2 == $team2Bet){
-                //solo una corretta
-            }else{
-                //nessuna
+            }
+        }else if($team1 == $team2Bet && $team2 == $team1Bet){
+            //squadre invertite
+
+            $resultValid = false;
+
+            if(($result == "1" && $resultBet == "2") || ($result == "2" && $resultBet == "1") || ($result == "X" && $resultBet == "X")){
+                $resultValid = true;
             }
 
+            if($resultValid){
+                if($goal1 == $goal2Bet && $goal2 == $goal1Bet){
+                    //result ok, goal ok
+                    if($fase != 5){
+                        $points += 19;
+                    }else{
+                        $points += 32;
+                    }
+                }else{
+                    //result ok, goal no
+                    if($fase != 5){
+                        $points += 6;
+                    }else{
+                        $points += 17;
+                    }
+                }
+            }
+        }else if($team1 == $team1Bet || $team2 == $team2Bet){
+            //solo una corretta
+        }else{
+            //nessuna
+        }
+
+        if($pointsBet > $points){
+            return $pointsBet;
         }
 
         return $points;

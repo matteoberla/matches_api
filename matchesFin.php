@@ -234,8 +234,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
     if ($query) {
         //updates successfully
         //update points of bets
+        $fase = $data->fase;
 
-        $sql = "SELECT * FROM `matches_fin_bet` WHERE `match_id`='$id'";
+        $sql = "SELECT * FROM `matches_fin_bet` WHERE `match_id` IN (SELECT id as match_id FROM matches_fin WHERE fase = '$fase') ORDER BY match_id";
         $query = mysqli_query($connection, $sql);
 
         $matchesFinBetDict = $query->fetch_all(MYSQLI_ASSOC);
