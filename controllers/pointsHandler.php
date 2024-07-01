@@ -188,8 +188,10 @@ class PointsHandler {
 
     function calcMatchesBetBonus($connection, $match, $matchBet){
         $fase = $match->fase;
+        $matchId = $match->id;
 
         //squadre impostate nella scommessa
+        $matchBetId = $matchBet["match_id"];
         $team1Bet = $matchBet["id_team_1"];
         $team2Bet = $matchBet["id_team_2"];
         $resultBet = $matchBet["result"];
@@ -249,24 +251,27 @@ class PointsHandler {
 
 
         if($fase == 2){
-            //fase ottavi
-            //bonus migliori terze
-            $team1 = $match->id_team_1;
-            $team2 = $match->id_team_2;
-            $des1 = $match->des_1;
-            $des2 = $match->des_2;
 
-            //bonus migliore 3a
-            if(str_contains($des1, "3")){
-                if($team1 == $team1Bet){
-                    $bonus += 5;
+            if($matchId == $matchBetId){
+                //fase ottavi
+                //bonus migliori terze
+                $team1 = $match->id_team_1;
+                $team2 = $match->id_team_2;
+                $des1 = $match->des_1;
+                $des2 = $match->des_2;
+
+                //bonus migliore 3a
+                if(str_contains($des1, "3")){
+                    if($team1 == $team1Bet){
+                        $bonus += 5;
+                    }
                 }
-            }
 
-            //bonus migliore 3a
-            if(str_contains($des2, "3")){
-                if($team2 == $team2Bet){
-                    $bonus += 5;
+                //bonus migliore 3a
+                if(str_contains($des2, "3")){
+                    if($team2 == $team2Bet){
+                        $bonus += 5;
+                    }
                 }
             }
         }
