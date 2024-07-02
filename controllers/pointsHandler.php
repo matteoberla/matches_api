@@ -196,6 +196,11 @@ class PointsHandler {
         $team2Bet = $matchBet["id_team_2"];
         $resultBet = $matchBet["result"];
         $finalResultBet = $matchBet["final_result"];
+        $bonusBet = $matchBet["bonus"];
+
+        if(is_null($bonusBet)){
+            $bonusBet = 0;
+        }
 
         //guardo lista partite della fase
         $sql = "SELECT
@@ -294,7 +299,9 @@ class PointsHandler {
             }
         }
 
-
+        if($bonusBet > $bonus){
+            return $bonusBet;
+        }
         return $bonus;
     }
 
