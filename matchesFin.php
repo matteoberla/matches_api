@@ -236,7 +236,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
         //update points of bets
         $fase = $data->fase;
 
-        $sql = "SELECT * FROM `matches_fin_bet` WHERE `match_id` IN (SELECT id as match_id FROM matches_fin WHERE fase = '$fase') ORDER BY match_id";
+        $sql = "SELECT
+                    mfb.*,
+                    mf.des_1,
+                    mf.des_2
+                FROM `matches_fin_bet` as mfb
+                LEFT JOIN
+                    (SELECT id, des_1, des_2 FROM matches_fin) as mf ON mfb.match_id = mf.id
+                WHERE
+                    `match_id` IN (SELECT id as match_id FROM matches_fin WHERE fase = '$fase')
+                ORDER BY match_id";
         $query = mysqli_query($connection, $sql);
 
         $matchesFinBetDict = $query->fetch_all(MYSQLI_ASSOC);

@@ -195,6 +195,8 @@ class PointsHandler {
         $team1Bet = $matchBet["id_team_1"];
         $team2Bet = $matchBet["id_team_2"];
         $resultBet = $matchBet["result"];
+        $des1Bet = $matchBet["des_1"];
+        $des2Bet = $matchBet["des_2"];
         $finalResultBet = $matchBet["final_result"];
         $bonusBet = $matchBet["bonus"];
 
@@ -264,14 +266,14 @@ class PointsHandler {
             $des2 = $match->des_2;
 
             //bonus migliore 3a
-            if(str_contains($des1, "3")){
+            if(str_contains($des1, "3") && str_contains($des1Bet, "3")){
                 if($team1 == $team1Bet){
                     $bonus += 5;
                 }
             }
 
             //bonus migliore 3a
-            if(str_contains($des2, "3")){
+            if(str_contains($des2, "3") && str_contains($des2Bet, "3")){
                 if($team2 == $team2Bet){
                     $bonus += 5;
                 }
