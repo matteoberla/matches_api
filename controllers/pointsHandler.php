@@ -1,6 +1,14 @@
 <?php
 
 class PointsHandler {
+
+    const ID_FASE_SEDICESIMI = 2;
+    const ID_FASE_OTTAVI = 3;
+    const ID_FASE_QUARTI = 4;
+    const ID_FASE_SEMIFINALE = 5;
+    const ID_FASE_FINALINA = 6;
+    const ID_FASE_FINALE = 7;
+
     function calcMatchesBetPoints($match, $matchBet){
         //match values
         $goal1 = $match->goal_team_1;
@@ -20,7 +28,7 @@ class PointsHandler {
 
             if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
                 //result ok, goal ok
-                return 13;
+                return 12;
             }else{
                 //result ok, goal no
                 return 4;
@@ -56,7 +64,7 @@ class PointsHandler {
 
         if($results[1] == 1 && $results[2] == 2 && $results[3] == 3 && $results[4] == 4){
             //tutte ok
-            return 28;
+            return 25;
         }else if($results[1] == 1 && $results[2] == 2){
             //1 e 2 ok
             return 15;
@@ -65,8 +73,8 @@ class PointsHandler {
             return 9;
         }else if($results[1] == 1){
             //1 ok
-            return 4;
-        }else if($results[2] == 1){
+            return 5;
+        }/*else if($results[2] == 1){
             //arrivata 2a ma impostata 1a
             return 4;
         }else if($results[2] == 2){
@@ -75,7 +83,7 @@ class PointsHandler {
         }else if($results[1] == 2){
             //arrivata 1a ma impostata 2a
             return 4;
-        }
+        }*/
 
         //echo $pos1 . $pos2 . $pos3 . $pos4;
         //echo $pos1Bet . $pos2Bet . $pos3Bet . $pos4Bet;
@@ -130,20 +138,20 @@ class PointsHandler {
 
                 if($goal1 == $goal1Bet && $goal2 == $goal2Bet){
                     //result ok, goal ok
-                    if($fase != 5){
-                        $points += 19;
+                    if($fase != self::ID_FASE_FINALE){
+                        $points += 18;
                     }else{
                         //finale
-                        $points += 32;
+                        $points += 35;
                     }
 
                 }else{
                     //result ok, goal no
-                    if($fase != 5){
+                    if($fase != self::ID_FASE_FINALE){
                         $points += 6;
                     }else{
                         //finale
-                        $points += 17;
+                        $points += 15;
                     }
                 }
             }
@@ -159,17 +167,17 @@ class PointsHandler {
             if($resultValid){
                 if($goal1 == $goal2Bet && $goal2 == $goal1Bet){
                     //result ok, goal ok
-                    if($fase != 5){
-                        $points += 19;
+                    if($fase != self::ID_FASE_FINALE){
+                        $points += 18;
                     }else{
-                        $points += 32;
+                        $points += 35;
                     }
                 }else{
                     //result ok, goal no
-                    if($fase != 5){
+                    if($fase != self::ID_FASE_FINALE){
                         $points += 6;
                     }else{
-                        $points += 17;
+                        $points += 15;
                     }
                 }
             }
@@ -230,25 +238,31 @@ class PointsHandler {
 
                 //se le squadre del $matchBet sono presenti tra la lista di squadre assegno punti
                 if($team1 == $team1Bet || $team1 == $team2Bet){
-                    if($fase == 3){
-                        //quart
-                        $bonus += 10;
-                    }else if($fase == 4){
+                    if($fase == self::ID_FASE_OTTAVI){ 
+                        // ottavi
+                        $bonus += 9;
+                    } else if($fase == self::ID_FASE_QUARTI){
+                        //quarti
+                        $bonus += 12;
+                    }else if($fase == self::ID_FASE_SEMIFINALE){
                         //semi
-                        $bonus += 15;
-                    }else if($fase == 5){
+                        $bonus += 17;
+                    }else if($fase == self::ID_FASE_FINALE){
                         //finale
                         $bonus += 25;
                     }
                 }
                 if($team2 == $team1Bet || $team2 == $team2Bet){
-                    if($fase == 3){
-                        //quart
-                        $bonus += 10;
-                    }else if($fase == 4){
+                    if($fase == self::ID_FASE_OTTAVI){ 
+                        // ottavi
+                        $bonus += 9;
+                    } else if($fase == self::ID_FASE_QUARTI){
+                        //quarti
+                        $bonus += 12;
+                    }else if($fase == self::ID_FASE_SEMIFINALE){
                         //semi
-                        $bonus += 15;
-                    }else if($fase == 5){
+                        $bonus += 17;
+                    }else if($fase == self::ID_FASE_FINALE){
                         //finale
                         $bonus += 25;
                     }
@@ -256,8 +270,8 @@ class PointsHandler {
             }
         }
 
-
-        if($fase == 2){
+        /*
+        if($fase == self::ID_FASE_OTTAVI){
             //fase ottavi
             //bonus migliori terze
             $team1 = $match->id_team_1;
@@ -279,9 +293,10 @@ class PointsHandler {
                 }
             }
         }
+        */
 
-
-        if($fase == 5) {
+        /*
+        if($fase == self::ID_FASE_FINALE) {
             //fase finale
             $team1 = $match->id_team_1;
             $team2 = $match->id_team_2;
@@ -297,6 +312,7 @@ class PointsHandler {
                 $bonus += 12;
             }
         }
+        */
 
         if($bonusBet > $bonus){
             return $bonusBet;
@@ -338,7 +354,7 @@ class PointsHandler {
 
         if($idTeam == $idTeamBet){
             //squadra ok
-            return 25;
+            return 30;
         }else{
             //squadra no
             return 0;
@@ -351,8 +367,10 @@ class PointsHandler {
             //valido -> verifico numero scommessa
             if($bet_num == 1){
                 return 10;
-            }else{
+            }else if($bet_num == 2){
                 return 7;
+            } else if($bet_num == 3){
+                return 0;
             }
         }else if($is_valid == 0){
             return 0;
@@ -363,8 +381,10 @@ class PointsHandler {
         if($is_valid == 1){
             //valido -> verifico numero scommessa
             if($bet_num == 1){
+                return 30;
+            }else if($bet_num == 2){
                 return 20;
-            }else{
+            } else if($bet_num == 3){
                 return 10;
             }
         }else if($is_valid == 0){
