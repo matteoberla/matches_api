@@ -10,7 +10,7 @@ require_once __DIR__ . '/controllers/jwtHandler.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') :
     $headers = getallheaders();
-    if (array_key_exists('Authorization', $headers) && preg_match('/Bearer/s(/S+)/', $headers['Authorization'], $matches)) :
+    if (array_key_exists('Authorization', $headers) && preg_match($bearerRegExp, $headers['Authorization'], $matches)) :
         $data = decodeToken($matches[1]);
         $userId = (int) $data;
         if (!is_numeric($data)) sendJson(401, 'Invalid User!');
