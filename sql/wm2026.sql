@@ -173,6 +173,128 @@ INSERT INTO matches (date, id_team_1, id_team_2, fase) VALUES ('2026-06-27 23:00
 INSERT INTO matches (date, id_team_1, id_team_2, fase) VALUES ('2026-06-27 23:00:00',(SELECT id FROM teams WHERE breve='CRO'),(SELECT id FROM teams WHERE breve='GHA'),1);
 
 
+INSERT INTO gironi (girone, id_team_1, id_team_2, id_team_3, id_team_4) VALUES
+-- =====================
+-- GRUPPO A
+-- =====================
+('Girone A',
+ (SELECT id FROM teams WHERE breve='MEX'),
+ (SELECT id FROM teams WHERE breve='RSA'),
+ (SELECT id FROM teams WHERE breve='KOR'),
+ (SELECT id FROM teams WHERE breve='CZE')
+),
+
+-- =====================
+-- GRUPPO B
+-- =====================
+('Girone B',
+ (SELECT id FROM teams WHERE breve='CAN'),
+ (SELECT id FROM teams WHERE breve='QAT'),
+ (SELECT id FROM teams WHERE breve='SUI'),
+ (SELECT id FROM teams WHERE breve='BIH')
+),
+
+-- =====================
+-- GRUPPO C
+-- =====================
+('Girone C',
+ (SELECT id FROM teams WHERE breve='BRA'),
+ (SELECT id FROM teams WHERE breve='MAR'),
+ (SELECT id FROM teams WHERE breve='HAI'),
+ (SELECT id FROM teams WHERE breve='SCO')
+),
+
+-- =====================
+-- GRUPPO D
+-- =====================
+('Girone D',
+ (SELECT id FROM teams WHERE breve='USA'),
+ (SELECT id FROM teams WHERE breve='PAR'),
+ (SELECT id FROM teams WHERE breve='AUS'),
+ (SELECT id FROM teams WHERE breve='TUR')
+),
+
+-- =====================
+-- GRUPPO E
+-- =====================
+('Girone E',
+ (SELECT id FROM teams WHERE breve='GER'),
+ (SELECT id FROM teams WHERE breve='CUW'),
+ (SELECT id FROM teams WHERE breve='CIV'),
+ (SELECT id FROM teams WHERE breve='ECU')
+),
+
+-- =====================
+-- GRUPPO F
+-- =====================
+('Girone F',
+ (SELECT id FROM teams WHERE breve='NED'),
+ (SELECT id FROM teams WHERE breve='JPN'),
+ (SELECT id FROM teams WHERE breve='SWE'),
+ (SELECT id FROM teams WHERE breve='TUN')
+),
+
+-- =====================
+-- GRUPPO G
+-- =====================
+('Girone G',
+ (SELECT id FROM teams WHERE breve='BEL'),
+ (SELECT id FROM teams WHERE breve='EGY'),
+ (SELECT id FROM teams WHERE breve='IRN'),
+ (SELECT id FROM teams WHERE breve='NZL')
+),
+
+-- =====================
+-- GRUPPO H
+-- =====================
+('Girone H',
+ (SELECT id FROM teams WHERE breve='ESP'),
+ (SELECT id FROM teams WHERE breve='CPV'),
+ (SELECT id FROM teams WHERE breve='KSA'),
+ (SELECT id FROM teams WHERE breve='URU')
+),
+
+-- =====================
+-- GRUPPO I
+-- =====================
+('Girone I',
+ (SELECT id FROM teams WHERE breve='FRA'),
+ (SELECT id FROM teams WHERE breve='SEN'),
+ (SELECT id FROM teams WHERE breve='IRQ'),
+ (SELECT id FROM teams WHERE breve='NOR')
+),
+
+-- =====================
+-- GRUPPO J
+-- =====================
+('Girone J',
+ (SELECT id FROM teams WHERE breve='ARG'),
+ (SELECT id FROM teams WHERE breve='ALG'),
+ (SELECT id FROM teams WHERE breve='AUT'),
+ (SELECT id FROM teams WHERE breve='JOR')
+),
+
+-- =====================
+-- GRUPPO K
+-- =====================
+('Girone K',
+ (SELECT id FROM teams WHERE breve='POR'),
+ (SELECT id FROM teams WHERE breve='COD'),
+ (SELECT id FROM teams WHERE breve='UZB'),
+ (SELECT id FROM teams WHERE breve='COL')
+),
+
+-- =====================
+-- GRUPPO L
+-- =====================
+('Girone L',
+ (SELECT id FROM teams WHERE breve='ENG'),
+ (SELECT id FROM teams WHERE breve='CRO'),
+ (SELECT id FROM teams WHERE breve='GHA'),
+ (SELECT id FROM teams WHERE breve='PAN')
+);
+
+
 
 INSERT INTO matches_fin (date, n_match, fase, des_1, des_2) VALUES
 -- =========================
