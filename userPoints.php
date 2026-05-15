@@ -12,11 +12,10 @@ header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 require_once __DIR__ . '/database.php';
 require_once __DIR__ . '/sendJson.php';
 require_once __DIR__ . '/controllers/authHandler.php';
-
+require_once __DIR__ . '/controllers/pointsHandler.php';
 
 //operazioni admin
 $authHandler = new AuthHandler();
-
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') :
 
@@ -38,6 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
     if($adminUser){
         $selectExtraInfo = "u.extra_info,";
     }
+
+    $pointsHandler = new PointsHandler();
 
     $sql = "SELECT
         u.id AS user_id,
@@ -110,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
                 JOIN
                     matches_fin AS mf ON mfb.match_id = mf.id
                 WHERE
-                    mf.fase = 2
+                    mf.fase = ".$pointsHandler::ID_FASE_OTTAVI."
                 GROUP BY
                     user_id
             ) mfb_bonus_o ON u.id = mfb_bonus_o.user_id
@@ -124,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
                 JOIN
                     matches_fin AS mf ON mfb.match_id = mf.id
                 WHERE
-                    mf.fase = 3
+                    mf.fase = ".$pointsHandler::ID_FASE_QUARTI."
                 GROUP BY
                     user_id
             ) mfb_bonus_q ON u.id = mfb_bonus_q.user_id
@@ -138,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
                 JOIN
                     matches_fin AS mf ON mfb.match_id = mf.id
                 WHERE
-                    mf.fase = 4
+                    mf.fase = ".$pointsHandler::ID_FASE_SEMIFINALE."
                 GROUP BY
                     user_id
             ) mfb_bonus_s ON u.id = mfb_bonus_s.user_id
@@ -152,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
                 JOIN
                     matches_fin AS mf ON mfb.match_id = mf.id
                 WHERE
-                    mf.fase = 5
+                    mf.fase = ".$pointsHandler::ID_FASE_FINALE."
                 GROUP BY
                     user_id
             ) mfb_bonus_f ON u.id = mfb_bonus_f.user_id

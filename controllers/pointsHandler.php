@@ -225,7 +225,7 @@ class PointsHandler {
 
         $bonus = 0;
         //ricavo lista squadre
-        if($fase >= 3){
+        if($fase >= self::ID_FASE_SEDICESIMI){
             foreach($matchesDict as $value){
 
                 //squadre della partita effettiva

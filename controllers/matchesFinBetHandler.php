@@ -5,29 +5,60 @@ class MatchesFinBetHandler {
 
     public $matchesConnections = array(
         //match id, match id successivo, posizione team nel team successivo
+
+        //ottavi
+        "73"=> array(90, 1),
+        "75"=> array(90, 2),
+
+        "74"=> array(89, 1),
+        "77"=> array(89, 2),
+
+        "83"=> array(93, 1),
+        "84"=> array(93, 2),
+
+        "81"=> array(94, 1),
+        "82"=> array(94, 2),
+
+        "76"=> array(91, 1),
+        "78"=> array(91, 2),
+
+        "79"=> array(92, 1),
+        "80"=> array(92, 2),
+
+        "86"=> array(95, 1),
+        "88"=> array(95, 2),
+
+        "85"=> array(96, 1),
+        "87"=> array(96, 2),
+
+
         //quarti
-        "39"=> array(45, 1),
-        "37"=> array(45, 2),
+        "89"=> array(97, 1),
+        "90"=> array(97, 2),
 
-        "41"=> array(46, 1),
-        "42"=> array(46, 2),
+        "93"=> array(98, 1),
+        "94"=> array(98, 2),
 
-        "43"=> array(47, 1),
-        "44"=> array(47, 2),
+        "91"=> array(99, 1),
+        "92"=> array(99, 2),
 
-        "40"=> array(48, 1),
-        "38"=> array(48, 2),
+        "95"=> array(100, 1),
+        "96"=> array(100, 2),
 
         //semifinali
-        "45"=> array(49, 1),
-        "46"=> array(49, 2),
+        "97"=> array(101, 1),
+        "98"=> array(101, 2),
 
-        "47"=> array(50, 1),
-        "48"=> array(50, 2),
+        "99"=> array(102, 1),
+        "100"=> array(102, 2),
+
+        // finalina
+        /*"101"=> array(103, 1),
+        "102"=> array(103, 2),*/
 
         //finale
-        "49"=> array(51, 1),
-        "50"=> array(51, 2),
+        "101"=> array(104, 1),
+        "102"=> array(104, 2),
 
     );
 
