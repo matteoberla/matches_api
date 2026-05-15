@@ -12,3 +12,7 @@ if (mysqli_connect_errno()) {
 
 $bearerRegExp = "/Bearer\s+(\S+)/";
 // "/Bearer/s(/S+)/"
+
+//db itxeanuf_matches_db
+//user itxeanuf_wp884
+//psw db netsons M]h?FHeRv(xj,v$i
