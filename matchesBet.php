@@ -12,6 +12,7 @@ header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 require_once __DIR__ . '/database.php';
 require_once __DIR__ . '/sendJson.php';
 require_once __DIR__ . '/controllers/authHandler.php';
+require_once __DIR__ . '/controllers/matchesBetHandler.php';
 
 if($_SERVER['REQUEST_METHOD'] == 'OPTIONS') :
     sendJson(200, 'OK');
@@ -76,6 +77,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
 
     $sql = "INSERT INTO `matches_bet` (`user_id`,`match_id`,`goal_team_1`,`goal_team_2`,`result`) VALUES($user_id,$match_id,$goal_team_1,$goal_team_2,'$result')";
     $query = mysqli_query($connection, $sql);
+
+    $matchesBetHandler = new MatchesBetHandler();
+    $matchesBetHandler->autocompilaGironeMatch($connection, $user_id, $match_id);
     
     if ($query) sendJson(200, 'You have successfully registered a match.');
     sendJson(500, 'Something going wrong.');
@@ -119,6 +123,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
 
     $sql = "UPDATE `matches_bet` SET `user_id`='$user_id',`match_id`=$match_id,`goal_team_1`=$goal_team_1,`goal_team_2`=$goal_team_2,`result`='$result'  WHERE `id` = $id";
     $query = mysqli_query($connection, $sql);
+
+    $matchesBetHandler = new MatchesBetHandler();
+    $matchesBetHandler->autocompilaGironeMatch($connection, $user_id, $match_id);
     
     if ($query) sendJson(200, 'You have successfully updated a match bet.');
     sendJson(500, 'Something going wrong.');

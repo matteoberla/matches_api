@@ -187,9 +187,9 @@ class PointsHandler {
             //nessuna
         }
 
-        if($pointsBet > $points){
+        /*if($pointsBet > $points){
             return $pointsBet;
-        }
+        }*/
 
         return $points;
     }
@@ -238,7 +238,10 @@ class PointsHandler {
 
                 //se le squadre del $matchBet sono presenti tra la lista di squadre assegno punti
                 if($team1 == $team1Bet || $team1 == $team2Bet){
-                    if($fase == self::ID_FASE_OTTAVI){ 
+                    if($fase == self::ID_FASE_SEDICESIMI){ 
+                        // sedicesimi
+                        $bonus += 3;
+                    } else if($fase == self::ID_FASE_OTTAVI){ 
                         // ottavi
                         $bonus += 9;
                     } else if($fase == self::ID_FASE_QUARTI){
@@ -253,7 +256,10 @@ class PointsHandler {
                     }
                 }
                 if($team2 == $team1Bet || $team2 == $team2Bet){
-                    if($fase == self::ID_FASE_OTTAVI){ 
+                    if($fase == self::ID_FASE_SEDICESIMI){ 
+                        // sedicesimi
+                        $bonus += 3;
+                    } else if($fase == self::ID_FASE_OTTAVI){ 
                         // ottavi
                         $bonus += 9;
                     } else if($fase == self::ID_FASE_QUARTI){
@@ -314,9 +320,9 @@ class PointsHandler {
         }
         */
 
-        if($bonusBet > $bonus){
+        /*if($bonusBet > $bonus){
             return $bonusBet;
-        }
+        }*/
         return $bonus;
     }
 

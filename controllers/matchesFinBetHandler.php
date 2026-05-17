@@ -77,7 +77,6 @@ class MatchesFinBetHandler {
             //numero partita successiva
             $next_match_num = $this->matchesConnections[$nMatch][0];
 
-
             if(!is_null($next_match_num)){
                 //partita successiva
                 $next_match = $this->getMatchFinByNMatch($connection, $next_match_num);
