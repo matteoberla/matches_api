@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
         COALESCE(mb.total_points, 0) AS total_matches_points,
         COALESCE(gb.total_points, 0) AS total_gironi_points,
         COALESCE(mfb.total_points, 0) AS total_matches_fin_points,
+        COALESCE(mfb_bonus_sed.total_bonus, 0) AS total_matches_fin_bonus_sedi,
         COALESCE(mfb_bonus_o.total_bonus, 0) AS total_matches_fin_bonus_ottavi_migliori_terze,
         COALESCE(mfb_bonus_q.total_bonus, 0) AS total_matches_fin_bonus_quarti,
         COALESCE(mfb_bonus_s.total_bonus, 0) AS total_matches_fin_bonus_semi,
@@ -101,6 +102,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
                 GROUP BY
                     user_id
             ) mfb_bonus_tot ON u.id = mfb_bonus_tot.user_id
+        LEFT JOIN
+            (
+                SELECT
+                    user_id,
+                    SUM(bonus) AS total_bonus
+                FROM
+                    matches_fin_bet as mfb
+                JOIN
+                    matches_fin AS mf ON mfb.match_id = mf.id
+                WHERE
+                    mf.fase = ".$pointsHandler::ID_FASE_SEDICESIMI."
+                GROUP BY
+                    user_id
+            ) mfb_bonus_sed ON u.id = mfb_bonus_sed.user_id
         LEFT JOIN
             (
                 SELECT
