@@ -6,6 +6,55 @@ class MatchesFinBetHandler {
     public $matchesConnections = array(
         //match id, match id successivo, posizione team nel team successivo
 
+        // sedicesimi (funzionamneto a parte)
+        "2A"=> array(73,1),
+        "2B"=> array(73,2),
+
+        "1E"=> array(74,1),
+        //terzo posto
+
+        "1F"=> array(75,1),
+        "2C"=> array(75,2),
+
+        "1C"=> array(76,1),
+        "2F"=> array(76,2),
+
+        "1I"=> array(77,1),
+        //terzo posto
+
+        "2E"=> array(78,1),
+        "2I"=> array(78,2),
+
+        "1A"=> array(79,1),
+        // terzo posto
+
+        "1L"=> array(80,1),
+        //terzo posto
+
+        "1D"=> array(81,1),
+        //terzo posto
+
+        "1G"=> array(82,1),
+        //terzo posto
+
+        "2K"=> array(83,1),
+        "2L"=> array(83,2),
+
+        "1H"=> array(84,1),
+        "2J"=> array(84,2),
+
+        "1B"=> array(85,1),
+        //terzo posto
+
+        "1J"=> array(86,1),
+        "2H"=> array(86,2),
+
+        "1K"=> array(87,1),
+        //terzo posto
+
+        "2D"=> array(88,1),
+        "2G"=> array(88,2),
+
         //ottavi
         "73"=> array(90, 1),
         "75"=> array(90, 2),

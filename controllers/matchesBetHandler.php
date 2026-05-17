@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/compilaGironiHandler.php';
+require_once __DIR__ . '/matchesFinBetHandler.php';
 
 class MatchesBetHandler {
 
@@ -59,7 +60,7 @@ class MatchesBetHandler {
             $pos++;
         }
 
-        print_r($teamPos);
+        //print_r($teamPos);
 
         //rimuovo eventuale girone bet esistente
         $sql = "DELETE FROM `gironi_bet` WHERE `user_id` = $userId AND `girone` = 'Girone $girone'";
@@ -94,11 +95,36 @@ class MatchesBetHandler {
                     } else if($pos["team_id"] == $gironeInfo["id_team_4"]){
                         $pos_4 = mysqli_real_escape_string($connection, $pos["pos"]);
                     }
+                    // desPos sarà Pos + girone: es. 2A, 1B...
+                    $this->autocompilaPrimaFaseFinale($connection, $userId, $pos["team_id"], $pos["pos"].$girone);
                 }
 
                 $sql = "INSERT INTO `gironi_bet` (`user_id`,`girone`,`pos_1`,`pos_2`,`pos_3`,`pos_4`) VALUES($userId,'Girone $girone',$pos_1,$pos_2,$pos_3,$pos_4)";
                 $query = mysqli_query($connection, $sql);   
             }
+        }
+    }
+
+    function autocompilaPrimaFaseFinale($connection, $user_id, $team, $desPos){
+        $matchesFinBetHandler = new MatchesFinBetHandler();
+
+        if(!array_key_exists($desPos, $matchesFinBetHandler->matchesConnections)){
+            //se non esiste la chiave salto 
+            return;
+        }
+
+        //numero partita successiva
+        $next_match_num = $matchesFinBetHandler->matchesConnections[$desPos][0];
+
+        if(!is_null($next_match_num)){
+            //partita successiva
+            $next_match = $matchesFinBetHandler->getMatchFinByNMatch($connection, $next_match_num);
+            //id partita successiva
+            $next_match_id = $next_match["id"];
+            //compilazione scommessa
+            $matchesFinBetHandler->compileNextBet($connection, $user_id,$next_match_id, $team, $matchesFinBetHandler->matchesConnections[$desPos][1]);
+            //ciclo per la partita successiva
+            $matchesFinBetHandler->autocompileFinMatches($connection, $user_id, $next_match_id);
         }
     }
 
