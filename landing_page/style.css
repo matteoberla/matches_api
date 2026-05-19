@@ -47,6 +47,7 @@ body {
 
 .logo-container {
     margin-bottom: 30px;
+    padding: 10px;
 }
 
 .logo-container img {
@@ -54,12 +55,9 @@ body {
     max-width: 320px;
     height: auto;
     border-radius: 30px; /* Rounded corners */
-    filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.4));
-    transition: transform 0.5s ease;
-}
-
-.logo-container img:hover {
-    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.35); /* Elegant glow that respects border-radius without clipping */
+    display: block;
+    margin: 0 auto;
 }
 
 h1 {
@@ -70,60 +68,38 @@ h1 {
     text-transform: uppercase;
     background: linear-gradient(to right, #fff, var(--accent-2), var(--accent-1));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
 }
 
-.countdown {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-.countdown-item {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 25px 10px;
-    border-radius: 25px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.25rem;
+    font-weight: 800;
+    padding: 16px 45px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 0 8px 20px rgba(255, 0, 122, 0.4), 
+                0 0 25px rgba(0, 240, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin: 25px 0;
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
 }
 
-.countdown-item:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-5px);
+.cta-button:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 25px rgba(255, 0, 122, 0.5), 
+                0 0 35px rgba(0, 240, 255, 0.35);
 }
 
-.countdown-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: var(--accent-1);
-    box-shadow: 0 0 15px var(--accent-1);
-}
-
-.countdown-item:nth-child(2)::before { background: var(--accent-2); box-shadow: 0 0 15px var(--accent-2); }
-.countdown-item:nth-child(3)::before { background: var(--accent-3); box-shadow: 0 0 15px var(--accent-3); }
-.countdown-item:nth-child(4)::before { background: var(--accent-4); box-shadow: 0 0 15px var(--accent-4); }
-
-.number {
-    display: block;
-    font-size: 3.5rem;
-    font-weight: 900;
-    line-height: 1;
-    margin-bottom: 5px;
-}
-
-.label {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: 600;
-    opacity: 0.9;
+.cta-button:active {
+    transform: translateY(-1px) scale(0.98);
 }
 
 .start-date {
@@ -135,10 +111,8 @@ h1 {
     text-transform: uppercase;
     color: var(--accent-3); /* Gold color for the date */
 }
+
 @media (min-width: 768px) {
-    .countdown {
-        grid-template-columns: repeat(4, 1fr);
-    }
     h1 {
         font-size: 4rem;
     }
@@ -148,8 +122,5 @@ h1 {
 @media (max-width: 480px) {
     h1 {
         font-size: 2.2rem;
-    }
-    .number {
-        font-size: 2.5rem;
     }
 }
