@@ -34,7 +34,139 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
 
     }else{
         //lista scommesse partite
-        $sql = "SELECT * FROM `gironi_bet` WHERE `user_id`='$loggedUserId'";
+        $sql = "SELECT 
+                    gb.*,
+
+                    s1.pt        AS pt_1,
+                    s1.gol_fatti AS gol_fatti_1,
+                    s1.gol_sub   AS gol_subiti_1,
+
+                    s2.pt        AS pt_2,
+                    s2.gol_fatti AS gol_fatti_2,
+                    s2.gol_sub   AS gol_subiti_2,
+
+                    s3.pt        AS pt_3,
+                    s3.gol_fatti AS gol_fatti_3,
+                    s3.gol_sub   AS gol_subiti_3,
+
+                    s4.pt        AS pt_4,
+                    s4.gol_fatti AS gol_fatti_4,
+                    s4.gol_sub   AS gol_subiti_4
+
+                FROM gironi_bet gb
+                JOIN gironi g ON g.girone = gb.girone
+
+                LEFT JOIN (
+                    SELECT 
+                        mb.user_id,
+                        m.id_team_1 AS team_id,
+                        gb2.id AS girone_bet_id,
+                        SUM(CASE 
+                            WHEN m.id_team_1 = g2.id_team_1 AND mb.result = '1' THEN 3
+                            WHEN m.id_team_1 = g2.id_team_1 AND mb.result = 'X' THEN 1
+                            WHEN m.id_team_2 = g2.id_team_1 AND mb.result = '2' THEN 3
+                            WHEN m.id_team_2 = g2.id_team_1 AND mb.result = 'X' THEN 1
+                            ELSE 0
+                        END) AS pt,
+                        SUM(CASE
+                            WHEN m.id_team_1 = g2.id_team_1 THEN mb.goal_team_1
+                            WHEN m.id_team_2 = g2.id_team_1 THEN mb.goal_team_2
+                        END) AS gol_fatti,
+                        SUM(CASE
+                            WHEN m.id_team_1 = g2.id_team_1 THEN mb.goal_team_2
+                            WHEN m.id_team_2 = g2.id_team_1 THEN mb.goal_team_1
+                        END) AS gol_sub
+                    FROM gironi_bet gb2
+                    JOIN gironi g2 ON g2.girone = gb2.girone
+                    JOIN matches m ON (m.id_team_1 = g2.id_team_1 OR m.id_team_2 = g2.id_team_1)
+                    JOIN matches_bet mb ON mb.match_id = m.id AND mb.user_id = gb2.user_id
+                    WHERE gb2.user_id = '$loggedUserId'
+                    GROUP BY gb2.id, mb.user_id
+                ) s1 ON s1.girone_bet_id = gb.id
+
+                LEFT JOIN (
+                    SELECT 
+                        mb.user_id,
+                        gb2.id AS girone_bet_id,
+                        SUM(CASE 
+                            WHEN m.id_team_1 = g2.id_team_2 AND mb.result = '1' THEN 3
+                            WHEN m.id_team_1 = g2.id_team_2 AND mb.result = 'X' THEN 1
+                            WHEN m.id_team_2 = g2.id_team_2 AND mb.result = '2' THEN 3
+                            WHEN m.id_team_2 = g2.id_team_2 AND mb.result = 'X' THEN 1
+                            ELSE 0
+                        END) AS pt,
+                        SUM(CASE
+                            WHEN m.id_team_1 = g2.id_team_2 THEN mb.goal_team_1
+                            WHEN m.id_team_2 = g2.id_team_2 THEN mb.goal_team_2
+                        END) AS gol_fatti,
+                        SUM(CASE
+                            WHEN m.id_team_1 = g2.id_team_2 THEN mb.goal_team_2
+                            WHEN m.id_team_2 = g2.id_team_2 THEN mb.goal_team_1
+                        END) AS gol_sub
+                    FROM gironi_bet gb2
+                    JOIN gironi g2 ON g2.girone = gb2.girone
+                    JOIN matches m ON (m.id_team_1 = g2.id_team_2 OR m.id_team_2 = g2.id_team_2)
+                    JOIN matches_bet mb ON mb.match_id = m.id AND mb.user_id = gb2.user_id
+                    WHERE gb2.user_id = '$loggedUserId'
+                    GROUP BY gb2.id, mb.user_id
+                ) s2 ON s2.girone_bet_id = gb.id
+
+                LEFT JOIN (
+                    SELECT 
+                        mb.user_id,
+                        gb2.id AS girone_bet_id,
+                        SUM(CASE 
+                            WHEN m.id_team_1 = g2.id_team_3 AND mb.result = '1' THEN 3
+                            WHEN m.id_team_1 = g2.id_team_3 AND mb.result = 'X' THEN 1
+                            WHEN m.id_team_2 = g2.id_team_3 AND mb.result = '2' THEN 3
+                            WHEN m.id_team_2 = g2.id_team_3 AND mb.result = 'X' THEN 1
+                            ELSE 0
+                        END) AS pt,
+                        SUM(CASE
+                            WHEN m.id_team_1 = g2.id_team_3 THEN mb.goal_team_1
+                            WHEN m.id_team_2 = g2.id_team_3 THEN mb.goal_team_2
+                        END) AS gol_fatti,
+                        SUM(CASE
+                            WHEN m.id_team_1 = g2.id_team_3 THEN mb.goal_team_2
+                            WHEN m.id_team_2 = g2.id_team_3 THEN mb.goal_team_1
+                        END) AS gol_sub
+                    FROM gironi_bet gb2
+                    JOIN gironi g2 ON g2.girone = gb2.girone
+                    JOIN matches m ON (m.id_team_1 = g2.id_team_3 OR m.id_team_2 = g2.id_team_3)
+                    JOIN matches_bet mb ON mb.match_id = m.id AND mb.user_id = gb2.user_id
+                    WHERE gb2.user_id = '$loggedUserId'
+                    GROUP BY gb2.id, mb.user_id
+                ) s3 ON s3.girone_bet_id = gb.id
+
+                LEFT JOIN (
+                    SELECT 
+                        mb.user_id,
+                        gb2.id AS girone_bet_id,
+                        SUM(CASE 
+                            WHEN m.id_team_1 = g2.id_team_4 AND mb.result = '1' THEN 3
+                            WHEN m.id_team_1 = g2.id_team_4 AND mb.result = 'X' THEN 1
+                            WHEN m.id_team_2 = g2.id_team_4 AND mb.result = '2' THEN 3
+                            WHEN m.id_team_2 = g2.id_team_4 AND mb.result = 'X' THEN 1
+                            ELSE 0
+                        END) AS pt,
+                        SUM(CASE
+                            WHEN m.id_team_1 = g2.id_team_4 THEN mb.goal_team_1
+                            WHEN m.id_team_2 = g2.id_team_4 THEN mb.goal_team_2
+                        END) AS gol_fatti,
+                        SUM(CASE
+                            WHEN m.id_team_1 = g2.id_team_4 THEN mb.goal_team_2
+                            WHEN m.id_team_2 = g2.id_team_4 THEN mb.goal_team_1
+                        END) AS gol_sub
+                    FROM gironi_bet gb2
+                    JOIN gironi g2 ON g2.girone = gb2.girone
+                    JOIN matches m ON (m.id_team_1 = g2.id_team_4 OR m.id_team_2 = g2.id_team_4)
+                    JOIN matches_bet mb ON mb.match_id = m.id AND mb.user_id = gb2.user_id
+                    WHERE gb2.user_id = '$loggedUserId'
+                    GROUP BY gb2.id, mb.user_id
+                ) s4 ON s4.girone_bet_id = gb.id
+
+                WHERE gb.user_id = '$loggedUserId'
+        ";
         $query = mysqli_query($connection, $sql);
 
         $teamsDict = $query->fetch_all(MYSQLI_ASSOC);
