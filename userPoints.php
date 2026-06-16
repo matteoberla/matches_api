@@ -20,15 +20,10 @@ $authHandler = new AuthHandler();
 if ($_SERVER['REQUEST_METHOD'] == 'GET') :
 
     $id = null;
+    // viene mandato id = -1
+    // per lo snapshot della classifica 
     if(isset($_GET['id'])){
-        //singolo utente
         $id = $_GET['id'];
-    }
-
-    //verifico se filtrare per utente
-    $whereCase = "";
-    if($id != null){
-        $whereCase = "WHERE u.id = '$id'";
     }
 
     //verifica se richiesto da superuser
@@ -212,14 +207,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') :
             GROUP BY
                 user_id
         ) ceb ON u.id = ceb.user_id
-        ".$whereCase."
         ORDER BY
             u.isActive DESC,
             total_points DESC;";
 
+    if (isset($id)){
+        // richiamare da Netsons:
+        // CALL refresh_leaderboard_snapshot();
+        // funzione per generare lo snapshot
+
+        // snapshot classifica
+        $sql = "
+            SELECT
+                u.id AS user_id,
+                u.email AS nickname,
+                u.name AS username,
+                ".$selectExtraInfo."
+                u.isActive,
+                CAST(CAST(ls.total_points AS SIGNED) AS CHAR) AS total_points
+            FROM
+                leaderboard_snapshot ls
+            INNER JOIN
+                users u ON u.id = ls.user_id
+            ORDER BY
+                u.isActive DESC,
+                ls.total_points DESC
+        ";
+    }
 
     //eseguo query
-    if($id != null){
+    if($id != null && $id != -1){
         $query = mysqli_query($connection, $sql);
         $row = mysqli_fetch_array($query, MYSQLI_ASSOC);
         if ($row === null) sendJson(404, 'User points non found!');
