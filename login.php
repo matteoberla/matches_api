@@ -35,7 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') :
                 users.*,
                 (SELECT conf.datetime FROM conf WHERE conf.id=1) as dt_scadenza,
                 (SELECT conf.value_int FROM conf WHERE conf.id=2) as app_ver,
-                (SELECT conf.value_int FROM conf WHERE conf.id=3) as show_points
+                (SELECT conf.value_int FROM conf WHERE conf.id=3) as show_points,
+                (SELECT conf.value_int FROM conf WHERE conf.id=4) as show_snapshot
             FROM
                 `users`
             WHERE
