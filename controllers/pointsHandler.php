@@ -238,10 +238,10 @@ class PointsHandler {
 
                 //se le squadre del $matchBet sono presenti tra la lista di squadre assegno punti
                 if($team1 == $team1Bet || $team1 == $team2Bet){
-                    if($fase == self::ID_FASE_SEDICESIMI){ 
+                    /*if($fase == self::ID_FASE_SEDICESIMI){ 
                         // sedicesimi
                         $bonus += 3;
-                    } else if($fase == self::ID_FASE_OTTAVI){ 
+                    } else*/ if($fase == self::ID_FASE_OTTAVI){ 
                         // ottavi
                         $bonus += 9;
                     } else if($fase == self::ID_FASE_QUARTI){
@@ -256,10 +256,10 @@ class PointsHandler {
                     }
                 }
                 if($team2 == $team1Bet || $team2 == $team2Bet){
-                    if($fase == self::ID_FASE_SEDICESIMI){ 
+                    /*if($fase == self::ID_FASE_SEDICESIMI){ 
                         // sedicesimi
                         $bonus += 3;
-                    } else if($fase == self::ID_FASE_OTTAVI){ 
+                    } else*/ if($fase == self::ID_FASE_OTTAVI){ 
                         // ottavi
                         $bonus += 9;
                     } else if($fase == self::ID_FASE_QUARTI){
@@ -276,9 +276,9 @@ class PointsHandler {
             }
         }
 
-        /*
-        if($fase == self::ID_FASE_OTTAVI){
-            //fase ottavi
+        
+        if($fase == self::ID_FASE_SEDICESIMI){
+            //fase sedicesimi
             //bonus migliori terze
             $team1 = $match->id_team_1;
             $team2 = $match->id_team_2;
@@ -288,20 +288,20 @@ class PointsHandler {
             //bonus migliore 3a
             if(str_contains($des1, "3") && str_contains($des1Bet, "3")){
                 if($team1 == $team1Bet){
-                    $bonus += 5;
+                    $bonus += 3;
                 }
             }
 
             //bonus migliore 3a
             if(str_contains($des2, "3") && str_contains($des2Bet, "3")){
                 if($team2 == $team2Bet){
-                    $bonus += 5;
+                    $bonus += 3;
                 }
             }
         }
-        */
 
-        /*
+
+        
         if($fase == self::ID_FASE_FINALE) {
             //fase finale
             $team1 = $match->id_team_1;
@@ -311,14 +311,14 @@ class PointsHandler {
             //bonus vincente fase finale
             //se indovinata squadra && (risultato = risultato scommessa & risultato = 1) oppure (risultato finale = risultato finale scommessa & risultato = 1)
             if($team1 == $team1Bet && (($result == $resultBet && $result == "1") || ($finalResult == $finalResultBet && $finalResult == "1")) ){
-                $bonus += 12;
+                $bonus += 15;
             }
 
             if($team2 == $team2Bet && (($result == $resultBet && $result == "2") || ($finalResult == $finalResultBet && $finalResult == "2")) ){
-                $bonus += 12;
+                $bonus += 15;
             }
         }
-        */
+        
 
         /*if($bonusBet > $bonus){
             return $bonusBet;
