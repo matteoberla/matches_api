@@ -277,7 +277,7 @@ class PointsHandler {
         }
 
         
-        if($fase == self::ID_FASE_SEDICESIMI){
+        /*if($fase == self::ID_FASE_SEDICESIMI){
             //fase sedicesimi
             //bonus migliori terze
             $team1 = $match->id_team_1;
@@ -298,7 +298,7 @@ class PointsHandler {
                     $bonus += 3;
                 }
             }
-        }
+        }*/
 
 
         
