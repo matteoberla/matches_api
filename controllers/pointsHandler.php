@@ -71,7 +71,7 @@ class PointsHandler {
         }else if($results[1] == 2 && $results[2] == 1){
             //1 e 2 invertite
             return 9;
-        }else if($results[1] == 1){
+        }/*else if($results[1] == 1){
             //1 ok
             return 5;
         }else if($results[2] == 1){
@@ -83,7 +83,7 @@ class PointsHandler {
         }else if($results[1] == 2){
             //arrivata 1a ma impostata 2a
             return 4;
-        }
+        }*/
 
         //echo $pos1 . $pos2 . $pos3 . $pos4;
         //echo $pos1Bet . $pos2Bet . $pos3Bet . $pos4Bet;
