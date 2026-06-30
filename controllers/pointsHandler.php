@@ -299,8 +299,6 @@ class PointsHandler {
                 }
             }
         }*/
-
-
         
         if($fase == self::ID_FASE_FINALE) {
             //fase finale
@@ -319,10 +317,12 @@ class PointsHandler {
             }
         }
         
-
-        /*if($bonusBet > $bonus){
+        // ciclando tutte le partite della fase succede che ogni volta la partita corrente viene aggiornata correttamente,
+        // mentre tutte le altre vengono azzerate
+        // questo controllo non è molto sicuro ma per lo meno fa si che non vengano sovrascritti ogni volta i bonus
+        if($bonusBet > $bonus){
             return $bonusBet;
-        }*/
+        }
         return $bonus;
     }
 
