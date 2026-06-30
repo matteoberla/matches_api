@@ -236,6 +236,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
         //update points of bets
         $fase = $data->fase;
 
+        // matches_fin points
+        // assegno punteggio sulla specifica partita
+        // es. partita 1 effettiva-> ita - spa
+        // utente ha impostato in partita 2 ita - spa -> non prende punti perche vuol dire che non ha rispettato
+        // la compilazione
+        // per questo filtro per le singole partite con id = id_partita
+        $sql = "SELECT
+                    mfb.*,
+                    mf.des_1,
+                    mf.des_2
+                FROM `matches_fin_bet` as mfb
+                LEFT JOIN
+                    (SELECT id, des_1, des_2 FROM matches_fin) as mf ON mfb.match_id = mf.id
+                WHERE
+                    `match_id` = $id
+                ORDER BY match_id";
+        $query = mysqli_query($connection, $sql);
+
+        $matchesFinBetDict = $query->fetch_all(MYSQLI_ASSOC);
+
+        $sql = "";
+        for ($i = 0; $i < count($matchesFinBetDict); $i++) {
+            $matchFinBet = $matchesFinBetDict[$i];
+            $matchFinBetId = $matchFinBet["id"];
+            $pointsHandler = new PointsHandler();
+            //punti
+            $matchBetPoints = $pointsHandler->calcMatchesFinBetPoints($data, $matchFinBet);
+            //echo $matchBetPoints;
+            if($matchBetPoints === null){
+                $matchBetPoints = "NULL";
+            }
+
+            $sql .= "UPDATE `matches_fin_bet` SET `points`= $matchBetPoints WHERE `id`='$matchFinBetId';";
+        }
+        //echo $sql;
+        $matchFinBetQuery = mysqli_multi_query($connection, $sql);
+
+        // matches_fin bonus
+        // i bonus vengono assegnati a qualunque squadra, anche se non è stata rispettata la posizione nella partita
+        // es. partita 1 effettiva-> ita - spa
+        // utente ha impostato in partita 2 ita - spa -> assegno cmq il bonus alle squadre indovinate
+        // per questo filtro per le partite facenti parte della specifica fase
         $sql = "SELECT
                     mfb.*,
                     mf.des_1,
@@ -255,12 +297,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
             $matchFinBet = $matchesFinBetDict[$i];
             $matchFinBetId = $matchFinBet["id"];
             $pointsHandler = new PointsHandler();
-            //punti
-            $matchBetPoints = $pointsHandler->calcMatchesFinBetPoints($data, $matchFinBet);
-            //echo $matchBetPoints;
-            if($matchBetPoints === null){
-                $matchBetPoints = "NULL";
-            }
+
             //bonus
             $matchBetBonus = $pointsHandler->calcMatchesBetBonus($connection, $data, $matchFinBet);
             //echo $matchBetBonus;
@@ -268,7 +305,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'PUT') :
                 $matchBetBonus = "NULL";
             }
 
-            $sql .= "UPDATE `matches_fin_bet` SET `points`= $matchBetPoints, `bonus`= $matchBetBonus WHERE `id`='$matchFinBetId';";
+            $sql .= "UPDATE `matches_fin_bet` SET `bonus`= $matchBetBonus WHERE `id`='$matchFinBetId';";
 
         }
         //echo $sql;
